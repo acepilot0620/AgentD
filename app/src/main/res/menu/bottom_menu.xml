@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/userFragment"
+        android:title="@string/user_button" />
+    <item
+        android:id="@+id/orderFragment"
+        android:title="@string/create_button" />
+    <item
+        android:id="@+id/missionsFragment"
+        android:title="@string/missions_title" />
+</menu>
+

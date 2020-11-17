@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AgentD</string>
+    <string name="main_title">Agent D</string>
+    <string name="user_button">User</string>
+    <string name="create_button">Create</string>
+    <string name="missions_title">Missions</string>
+</resources>
