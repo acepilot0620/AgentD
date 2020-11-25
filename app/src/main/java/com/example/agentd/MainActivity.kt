@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val host: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.myNavHostFragment) as NavHostFragment? ?: return
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
 
-        val navController = host.navController
+
     }
 }

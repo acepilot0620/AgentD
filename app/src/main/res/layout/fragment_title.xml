@@ -4,13 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="titleViewModel"
+            type="com.example.agentd.title.TitleViewModel" />
+
+    </data>
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".TitleFragment">
+        tools:context=".title.TitleFragment">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map_fragment"
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
@@ -24,9 +32,13 @@
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_menu" />
 
-
-
-
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment_title"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation_title" />
 
     </FrameLayout>
 

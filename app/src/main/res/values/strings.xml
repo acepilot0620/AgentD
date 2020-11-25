@@ -4,4 +4,5 @@
     <string name="user_button">User</string>
     <string name="create_button">Create</string>
     <string name="missions_title">Missions</string>
+    <string name="hello">Hello</string>
 </resources>
