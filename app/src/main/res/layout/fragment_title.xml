@@ -27,18 +27,10 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:layout_height="56dp"
             android:layout_gravity="bottom"
+            android:background="#ffffff"
             app:menu="@menu/bottom_menu" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment_title"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation_title" />
 
     </FrameLayout>
 

@@ -36,7 +36,6 @@ class TitleFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        val navController = (activity as AppCompatActivity).findNavController(R.id.nav_host_fragment_title)
 
         titleViewModel.navigateToUser.observe(viewLifecycleOwner, Observer {
             it?.let {
