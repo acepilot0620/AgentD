@@ -1,13 +1,16 @@
 package com.example.agentd.signup
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,13 +44,13 @@ class SignupFragment : Fragment() {
 
         signupViewModel.sendSignupInformation.observe(viewLifecycleOwner, Observer {
             if(it == true) {
+
                 val username: String = binding.signupInputUsername.text.toString()
                 val email: String = binding.signupInputEmail.text.toString()
                 val password: String = binding.signupInputPassword.text.toString()
                 val phoneNumber: String = binding.signupInputPhoneNumber.text.toString()
 
-                var success: Boolean = performSignup(username, email, password, phoneNumber)
-                if(!success) return@Observer
+                performSignup(username, email, password, phoneNumber)
 
                 signupViewModel.doneSignup()
             }
@@ -69,11 +72,10 @@ class SignupFragment : Fragment() {
         return binding.root
     }
 
-    private fun performSignup(username: String, email: String, password: String, phoneNumber: String): Boolean {
+    private fun performSignup(username: String, email: String, password: String, phoneNumber: String) {
         // if empty string on authentication, app just crashed. To deal with that,
         if(email.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireActivity(), "Please enter text in email/password", Toast.LENGTH_SHORT).show()
-            return false
         }
 
         Log.d("SignupFragment", "Username is: " + username)
@@ -86,16 +88,17 @@ class SignupFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if(!task.isSuccessful) return@addOnCompleteListener
 
-                // else if successfull
-                Log.d("SignupFragment", "Successfully created user with uid: ${task.result?.user?.uid}")
+                val uid: String = task.result?.user?.uid.toString()
 
-                saveUserToFirebaseDatabase(task.result?.user?.uid.toString(), username, email, phoneNumber)
+                // else if successfull
+                Log.d("SignupFragment", "Successfully created user with uid: ${uid}")
+
+                saveUserToFirebaseDatabase(uid, username, email, phoneNumber)
             }
             .addOnFailureListener { task ->
                 Toast.makeText(requireActivity(), task.message, Toast.LENGTH_SHORT).show()
-                Log.d("SigninFragment", "Failed to create user: ${task.message}")
+                Log.d("SignupFragment", "Failed to create user: ${task.message}")
             }
-        return true
     }
 
 //    fun authenticateFirebase(email: String, password: String): String? {
@@ -106,7 +109,13 @@ class SignupFragment : Fragment() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid") // "users" node
         val user = User(uid, username, email, phoneNumber)
 
-//        ref.setValue()
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("SignupFragment", "Successfully saved user data")
+            }
+            .addOnFailureListener {
+                // for logging purposes
+            }
 
     }
 

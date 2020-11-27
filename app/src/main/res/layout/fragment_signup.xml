@@ -28,6 +28,7 @@
             android:inputType="textPersonName"
             android:paddingLeft="@dimen/input_text_padding"
             android:paddingRight="@dimen/input_text_padding"
+            android:imeOptions="actionDone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +46,7 @@
             android:inputType="textEmailAddress"
             android:paddingLeft="@dimen/input_text_padding"
             android:paddingRight="@dimen/input_text_padding"
+            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="@+id/signup_input_username"
             app:layout_constraintStart_toStartOf="@+id/signup_input_username"
             app:layout_constraintTop_toBottomOf="@+id/signup_input_username" />
@@ -60,6 +62,7 @@
             android:inputType="textPassword"
             android:paddingLeft="@dimen/input_text_padding"
             android:paddingRight="@dimen/input_text_padding"
+            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="@+id/signup_input_email"
             app:layout_constraintStart_toStartOf="@+id/signup_input_email"
             app:layout_constraintTop_toBottomOf="@+id/signup_input_email" />
@@ -75,6 +78,7 @@
             android:inputType="phone"
             android:paddingLeft="@dimen/input_text_padding"
             android:paddingRight="@dimen/input_text_padding"
+            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="@+id/signup_input_password"
             app:layout_constraintStart_toStartOf="@+id/signup_input_password"
             app:layout_constraintTop_toBottomOf="@+id/signup_input_password" />
