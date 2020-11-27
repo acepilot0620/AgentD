@@ -19,7 +19,7 @@ class TitleFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        setHasOptionsMenu(true)
+        // setHasOptionsMenu(true)
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentTitleBinding = DataBindingUtil.inflate(
@@ -37,19 +37,15 @@ class TitleFragment : Fragment() {
         binding.setLifecycleOwner(this)
 
 
-        titleViewModel.navigateToUser.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                this.findNavController()
-            }
-        })
+//        titleViewModel.navigateToUser.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                this.findNavController()
+//            }
+//        })
 
 
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 }

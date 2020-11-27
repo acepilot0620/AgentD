@@ -1,6 +1,8 @@
 package com.example.agentd.signin
 
 import android.app.Activity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.agentd.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -9,14 +11,28 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class SigninViewModel : ViewModel() {
 
-    var googleSigninClient : GoogleSignInClient? = null
+    private val _sendSignInformation = MutableLiveData<Boolean?>()
+    val sendSignInformation: LiveData<Boolean?>
+        get() = _sendSignInformation
 
-    fun loginGoogle(email: String, password: String) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(R.string.default_web_client_id.toString())
-            .requestEmail()
-            .build()
+    private val _navigateToSignup = MutableLiveData<Boolean?>()
+    val navigateToSignup: LiveData<Boolean?>
+        get() = _navigateToSignup
 
-        // googleSigninClient = GoogleSignIn.getClient()
+    // For layout file. Trigger authentication
+    fun onSignin() {
+        _sendSignInformation.value = true
+    }
+
+    fun doneSignin() {
+        _sendSignInformation.value = null
+    }
+
+    fun onDoesntHaveAccount() {
+        _navigateToSignup.value = true
+    }
+
+    fun doneDoesntHaveAccount() {
+        _navigateToSignup.value = false
     }
 }

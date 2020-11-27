@@ -3,19 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/signin_fragment">
-    <fragment
-        android:id="@+id/signin_fragment"
-        android:name="com.example.agentd.signin.SigninFragment"
-        tools:layout="@layout/fragment_signin"
-        android:label="SigninFragment" >
-        <action
-            android:id="@+id/action_signin_fragment_to_signup_fragment"
-            app:destination="@id/signup_fragment" />
-        <action
-            android:id="@+id/action_signin_fragment_to_title_fragment"
-            app:destination="@id/title_fragment" />
-    </fragment>
+    app:startDestination="@id/signup_fragment">
+
     <fragment
         android:id="@+id/signup_fragment"
         android:name="com.example.agentd.signup.SignupFragment"
@@ -23,11 +12,23 @@
         android:label="SignupFragment" >
         <action
             android:id="@+id/action_signup_fragment_to_signin_fragment"
-            app:destination="@id/signin_fragment" />
+            app:destination="@id/signin_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
-        android:id="@+id/title_fragment"
-        android:name="com.example.agentd.title.TitleFragment"
-        tools:layout="@layout/fragment_title"
-        android:label="TitleFragment" />
+        android:id="@+id/signin_fragment"
+        android:name="com.example.agentd.signin.SigninFragment"
+        tools:layout="@layout/fragment_signin"
+        android:label="SigninFragment" >
+        <action
+            android:id="@+id/action_signin_fragment_to_signup_fragment"
+            app:destination="@id/signup_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
 </navigation>

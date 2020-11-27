@@ -33,11 +33,11 @@ class UserFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        userViewModel.navigateToSignup.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                this.findNavController()
-            }
-        })
+//        userViewModel.navigateToSignup.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                this.findNavController()
+//            }
+//        })
 
 
 

@@ -24,13 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom"
-            android:background="#ffffff"
-            app:menu="@menu/bottom_menu" />
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/bottom_nav_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="56dp"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:background="#ffffff"-->
+<!--            app:menu="@menu/bottom_menu" />-->
 
     </FrameLayout>
 

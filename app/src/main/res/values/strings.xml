@@ -15,4 +15,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_signup_to_signin">Already have an account?</string>
+    <string name="prompt_signin_to_signup">Back to registration</string>
 </resources>
