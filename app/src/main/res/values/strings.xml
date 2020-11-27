@@ -18,4 +18,5 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_signup_to_signin">Already have an account?</string>
     <string name="prompt_signin_to_signup">Back to registration</string>
+    <string name="prompt_phone_number">Phone number</string>
 </resources>

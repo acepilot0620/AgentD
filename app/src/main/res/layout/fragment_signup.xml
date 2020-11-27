@@ -21,24 +21,25 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/input_text_height"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/round_edittext"
             android:ems="10"
             android:hint="@string/prompt_username"
             android:inputType="textPersonName"
             android:paddingLeft="@dimen/input_text_padding"
             android:paddingRight="@dimen/input_text_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26999998" />
 
         <EditText
             android:id="@+id/signup_input_email"
             android:layout_width="0dp"
             android:layout_height="@dimen/input_text_height"
             android:layout_marginTop="16dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/round_edittext"
             android:ems="10"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
@@ -53,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/input_text_height"
             android:layout_marginTop="16dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/round_edittext"
             android:ems="10"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
@@ -63,17 +64,34 @@
             app:layout_constraintStart_toStartOf="@+id/signup_input_email"
             app:layout_constraintTop_toBottomOf="@+id/signup_input_email" />
 
+        <EditText
+            android:id="@+id/signup_input_phone_number"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/input_text_height"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/round_edittext"
+            android:ems="10"
+            android:hint="@string/prompt_phone_number"
+            android:inputType="phone"
+            android:paddingLeft="@dimen/input_text_padding"
+            android:paddingRight="@dimen/input_text_padding"
+            app:layout_constraintEnd_toEndOf="@+id/signup_input_password"
+            app:layout_constraintStart_toStartOf="@+id/signup_input_password"
+            app:layout_constraintTop_toBottomOf="@+id/signup_input_password" />
+
         <Button
             android:id="@+id/signup_button_signup"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/round_button"
             android:onClick="@{() -> signupViewModel.onSignup()}"
             android:text="@string/action_sign_up_short"
+            android:textColor="@android:color/primary_text_light"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/signup_input_password"
-            app:layout_constraintStart_toStartOf="@+id/signup_input_password"
-            app:layout_constraintTop_toBottomOf="@+id/signup_input_password" />
+            app:layout_constraintEnd_toEndOf="@+id/signup_input_phone_number"
+            app:layout_constraintStart_toStartOf="@+id/signup_input_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/signup_input_phone_number" />
 
         <TextView
             android:id="@+id/button_to_signin"
