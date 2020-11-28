@@ -91,13 +91,13 @@ class SignupFragment : Fragment() {
                 val uid: String = task.result?.user?.uid.toString()
 
                 // else if successfull
-                Log.d("SignupFragment", "Successfully created user with uid: ${uid}")
+                Log.d(TAG, "Successfully created user with uid: ${uid}")
 
                 saveUserToFirebaseDatabase(uid, username, email, phoneNumber)
             }
             .addOnFailureListener { task ->
                 Toast.makeText(requireActivity(), task.message, Toast.LENGTH_SHORT).show()
-                Log.d("SignupFragment", "Failed to create user: ${task.message}")
+                Log.d(TAG, "Failed to create user: ${task.message}")
             }
     }
 
@@ -107,16 +107,23 @@ class SignupFragment : Fragment() {
 
     private fun saveUserToFirebaseDatabase(uid: String, username: String, email: String, phoneNumber: String) {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid") // "users" node
-        val user = User(uid, username, email, phoneNumber)
+        val user = User(uid, username, email, phoneNumber,
+            0, // initial balance 0 won
+            37.5642135, 127.0016985 // initial location of center of Seoul city
+        )
 
         ref.setValue(user)
             .addOnSuccessListener {
-                Log.d("SignupFragment", "Successfully saved user data")
+                Log.d(TAG, "Successfully saved user data")
             }
             .addOnFailureListener {
                 // for logging purposes
             }
 
+    }
+
+    companion object {
+        val TAG = "Signup"
     }
 
 }

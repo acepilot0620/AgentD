@@ -16,7 +16,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="prompt_username">Username</string>
-    <string name="prompt_signup_to_signin">Already have an account?</string>
-    <string name="prompt_signin_to_signup">Back to registration</string>
+    <string name="prompt_signup_to_signin">Back to login</string>
+    <string name="prompt_signin_to_signup">Create an account</string>
     <string name="prompt_phone_number">Phone number</string>
+
+    <string name="latitude_prefix">Latitude: %s</string>
+    <string name="longitude_prefix">Latitude: %s</string>
 </resources>

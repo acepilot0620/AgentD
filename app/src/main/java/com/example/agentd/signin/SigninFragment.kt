@@ -1,5 +1,6 @@
 package com.example.agentd.signin
 
+import android.location.Location
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.agentd.MainActivity
 import com.example.agentd.R
 import com.example.agentd.databinding.FragmentSigninBinding
 import com.example.agentd.databinding.FragmentSignupBinding
@@ -41,13 +43,29 @@ class SigninFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
-        signinViewModel.sendSignInformation.observe(viewLifecycleOwner, Observer {
+        signinViewModel.sendSigninInformation.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 val email: String = binding.signinInputEmail.text.toString()
                 val password: String = binding.signinInputPassword.text.toString()
 
-                val success: Boolean = performSignin(email, password)
-                if(!success) return@Observer
+                performSignin(email, password)
+
+                var testArray : Array<Double> = (activity as MainActivity).testReturn()
+                Log.d(TAG, "value1: ${testArray[0]}")
+                Log.d(TAG, "value2: ${testArray[1]}")
+
+                var location: Location? = (activity as MainActivity).getLastLocation()
+//                Log.d(TAG, "latitude: ${location!!.latitude}")
+//                Log.d(TAG, "longitude: ${location!!.longitude}")
+//                val latitude: Double? = location!!.latitude
+//                val longitude: Double? = location!!.longitude
+
+//                var location: Array<Double?> = (activity as MainActivity).requestLastLocation()
+//                val latitude: Double? = location.get(0)
+//                val longitude: Double? = location.get(1)
+
+//                binding.textLatitude.text = "Latitude: " + latitude.toString()
+//                binding.textLongitude.text = "Longitude: " + longitude.toString()
 
                 signinViewModel.doneSignin()
             }
@@ -55,7 +73,7 @@ class SigninFragment : Fragment() {
 
         signinViewModel.navigateToSignup.observe(viewLifecycleOwner, Observer {
             if(it == true) {
-                Log.d("SignupFragment", "Try to show SignupFragment")
+                Log.d(TAG, "Try to show SignupFragment")
 
                 this.findNavController().navigate(
                     SigninFragmentDirections
@@ -70,30 +88,28 @@ class SigninFragment : Fragment() {
     }
 
 
-    fun performSignin(email: String, password: String): Boolean {
+    fun performSignin(email: String, password: String) {
         // if empty string on authentication, app just crashed. To deal with that,
         if(email.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireActivity(), "Please enter text in email/password", Toast.LENGTH_SHORT).show()
-            return false
         }
 
-        Log.d("SigninFragment", "Attempt signin with email/pw: $email/$password")
+        Log.d(TAG, "Attempt signin with email/pw: $email/$password")
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if(!task.isSuccessful) return@addOnCompleteListener
 
                 // else if successful
-                Log.d("SigninFragment", "Successfully login user with uid: ${task.result?.user?.uid}")
+                Log.d(TAG, "Successfully login user with uid: ${task.result?.user?.uid}")
             }
             .addOnFailureListener { task ->
                 Toast.makeText(requireActivity(), task.message, Toast.LENGTH_SHORT).show()
-                Log.d("SigninFragment", "Failed to login user: ${task.message}")
+                Log.d(TAG, "Failed to login user: ${task.message}")
             }
-        return true
     }
 
-
-
-
+    companion object {
+        val TAG = "Signin"
+    }
 }

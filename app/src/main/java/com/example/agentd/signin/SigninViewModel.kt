@@ -11,9 +11,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class SigninViewModel : ViewModel() {
 
-    private val _sendSignInformation = MutableLiveData<Boolean?>()
-    val sendSignInformation: LiveData<Boolean?>
-        get() = _sendSignInformation
+    private val _sendSigninInformation = MutableLiveData<Boolean?>()
+    val sendSigninInformation: LiveData<Boolean?>
+        get() = _sendSigninInformation
 
     private val _navigateToSignup = MutableLiveData<Boolean?>()
     val navigateToSignup: LiveData<Boolean?>
@@ -21,11 +21,11 @@ class SigninViewModel : ViewModel() {
 
     // For layout file. Trigger authentication
     fun onSignin() {
-        _sendSignInformation.value = true
+        _sendSigninInformation.value = true
     }
 
     fun doneSignin() {
-        _sendSignInformation.value = null
+        _sendSigninInformation.value = null
     }
 
     fun onDoesntHaveAccount() {

@@ -69,7 +69,7 @@
             app:layout_constraintTop_toBottomOf="@+id/signin_input_password" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/button_to_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -81,5 +81,36 @@
             app:layout_constraintEnd_toEndOf="@+id/signin_button_signin"
             app:layout_constraintStart_toStartOf="@+id/signin_button_signin"
             app:layout_constraintTop_toBottomOf="@+id/signin_button_signin" />
+
+        <TextView
+            android:id="@+id/text_latitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Latitude"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/signin_button_signin"
+            app:layout_constraintStart_toStartOf="@+id/signin_button_signin"
+            app:layout_constraintTop_toBottomOf="@+id/button_to_signup" />
+
+        <TextView
+            android:id="@+id/text_longitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Longitude"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/text_latitude"
+            app:layout_constraintStart_toStartOf="@+id/text_latitude"
+            app:layout_constraintTop_toBottomOf="@+id/text_latitude" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
