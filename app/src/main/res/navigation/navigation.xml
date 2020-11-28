@@ -3,10 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/titleFragment">
+    app:startDestination="@id/signin_fragment">
 
     <fragment
-        android:id="@+id/titleFragment"
-        android:name="com.example.agentd.TitleFragment"
-        android:label="TitleFragment" />
+        android:id="@+id/signup_fragment"
+        android:name="com.example.agentd.signup.SignupFragment"
+        tools:layout="@layout/fragment_signup"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signup_fragment_to_signin_fragment"
+            app:destination="@id/signin_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/title_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/signin_fragment"
+        android:name="com.example.agentd.signin.SigninFragment"
+        tools:layout="@layout/fragment_signin"
+        android:label="SigninFragment" >
+        <action
+            android:id="@+id/action_signin_fragment_to_signup_fragment"
+            app:destination="@id/signup_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_signin_fragment_to_title_fragment"
+            app:destination="@id/title_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/title_fragment"
+        android:name="com.example.agentd.title.TitleFragment"
+        tools:layout="@layout/fragment_title"
+        android:label="TitleFragment" >
+        <action
+            android:id="@+id/action_title_fragment_to_user_fragment"
+            app:destination="@id/user_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/user_fragment"
+        android:name="com.example.agentd.user.UserFragment"
+        tools:layout="@layout/fragment_user"
+        android:label="UserFragment" >
+        <action
+            android:id="@+id/action_user_fragment_to_title_fragment"
+            app:destination="@id/title_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_user_fragment_to_signin_fragment"
+            app:destination="@id/signin_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/signin_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

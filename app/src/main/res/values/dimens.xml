@@ -4,4 +4,13 @@
     <dimen name="small_padding">8dp</dimen>
     <dimen name="layout_margin">16dp</dimen>
     <dimen name="layout_padding">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fragment_horizontal_margin">16dp</dimen>
+    <dimen name="fragment_vertical_margin">16dp</dimen>
+    <dimen name="input_text_height">50dp</dimen>
+    <dimen name="input_text_padding">20dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="text_user_prefix_size">22sp</dimen>
+    <dimen name="text_user_main_size">20sp</dimen>
+    <dimen name="text_user_main_height">40dp</dimen>
 </resources>
