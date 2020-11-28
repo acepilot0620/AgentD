@@ -10,4 +10,13 @@ class TitleViewModel : ViewModel() {
     val navigateToUser: LiveData<Boolean?>
         get() = _navigateToUser
 
+
+    fun onNavtigateToUser() {
+        _navigateToUser.value = true
+    }
+
+    fun doneNavigateToUser() {
+        _navigateToUser.value = false
+    }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,12 +12,264 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/background_dark"
         tools:context=".user.UserFragment">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello" />
+<!--        <TextView-->
+<!--            android:id="@+id/text_user"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Account Information"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="@dimen/text_size"-->
+<!--            android:textStyle="bold"-->
+<!--            tools:layout_editor_absoluteX="112dp"-->
+<!--            tools:layout_editor_absoluteY="16dp" />-->
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_username"
+                    android:textAlignment="textStart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/text_user_prefix_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edittext_username"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_edittext"
+                    android:ems="10"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textSize="@dimen/text_user_main_size"
+                    app:layout_constraintEnd_toEndOf="@+id/text_username"
+                    app:layout_constraintStart_toStartOf="@+id/text_username"
+                    app:layout_constraintTop_toBottomOf="@+id/text_username" />
+
+                <TextView
+                    android:id="@+id/text_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_email"
+                    android:textAlignment="viewStart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/text_user_prefix_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/edittext_username"
+                    app:layout_constraintStart_toStartOf="@+id/edittext_username"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_username" />
+
+                <EditText
+                    android:id="@+id/edittext_email"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/text_user_main_height"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_edittext"
+                    android:ems="10"
+                    android:inputType="textEmailAddress"
+                    android:enabled="false"
+                    android:imeOptions="actionDone"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_user_main_size"
+                    app:layout_constraintEnd_toEndOf="@+id/text_email"
+                    app:layout_constraintStart_toStartOf="@+id/text_email"
+                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
+
+                <TextView
+                    android:id="@+id/text_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_phone_number"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/text_user_prefix_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/edittext_email"
+                    app:layout_constraintStart_toStartOf="@+id/edittext_email"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
+
+                <EditText
+                    android:id="@+id/edittext_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/text_user_main_height"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_edittext"
+                    android:ems="10"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textSize="@dimen/text_user_main_size"
+                    app:layout_constraintEnd_toEndOf="@+id/text_phone_number"
+                    app:layout_constraintStart_toStartOf="@+id/text_phone_number"
+                    app:layout_constraintTop_toBottomOf="@+id/text_phone_number" />
+
+                <TextView
+                    android:id="@+id/text_balance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_balance"
+                    android:textAlignment="textStart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/text_user_prefix_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/edittext_phone_number"
+                    app:layout_constraintStart_toStartOf="@+id/edittext_phone_number"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_phone_number" />
+
+                <EditText
+                    android:id="@+id/edittext_balance"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/text_user_main_height"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_edittext"
+                    android:digits="0123456789"
+                    android:ems="10"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textSize="@dimen/text_user_main_size"
+                    app:layout_constraintEnd_toEndOf="@+id/text_balance"
+                    app:layout_constraintStart_toStartOf="@+id/text_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/text_balance" />
+
+                <TextView
+                    android:id="@+id/text_latitude_user_prefix"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_latitude"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/edittext_balance"
+                    app:layout_constraintStart_toStartOf="@+id/edittext_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_balance" />
+
+                <TextView
+                    android:id="@+id/text_latitude_user_main"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_button"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/text_latitude_user_prefix"
+                    app:layout_constraintStart_toStartOf="@+id/text_latitude_user_prefix"
+                    app:layout_constraintTop_toBottomOf="@+id/text_latitude_user_prefix" />
+
+                <TextView
+                    android:id="@+id/text_longitude_user_prefix"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:text="@string/user_longitude"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/text_latitude_user_main"
+                    app:layout_constraintStart_toStartOf="@+id/text_latitude_user_main"
+                    app:layout_constraintTop_toBottomOf="@+id/text_latitude_user_main" />
+
+                <TextView
+                    android:id="@+id/text_longitude_user_main"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_button"
+                    android:paddingLeft="@dimen/input_text_padding"
+                    android:paddingRight="@dimen/input_text_padding"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/text_longitude_user_prefix"
+                    app:layout_constraintStart_toStartOf="@+id/text_longitude_user_prefix"
+                    app:layout_constraintTop_toBottomOf="@+id/text_longitude_user_prefix" />
+
+                <Button
+                    android:id="@+id/button_signout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="@{() -> userViewModel.onSignout()}"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="@string/user_signout"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button_to_title"
+                    app:layout_constraintEnd_toEndOf="@+id/button_to_title"
+                    app:layout_constraintStart_toStartOf="@+id/button_to_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_longitude_user_main" />
+
+                <Button
+                    android:id="@+id/button_to_title"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@android:color/background_dark"
+                    android:onClick="@{() -> userViewModel.onBackToTitle()}"
+                    android:text="@string/done_button"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

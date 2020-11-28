@@ -75,6 +75,12 @@ class SigninFragment : Fragment() {
                 // perform signin and if success, save location data to database
                 performSignin(email, password)
 
+                // after signin complete, move to title fragment
+                this.findNavController().navigate(
+                    SigninFragmentDirections
+                        .actionSigninFragmentToTitleFragment()
+                )
+
                 signinViewModel.doneSignin()
             }
         })
@@ -94,6 +100,23 @@ class SigninFragment : Fragment() {
 
         return binding.root
     }
+
+    // Not yet tested
+//    override fun onStart() {
+//        super.onStart()
+//        // If the user already logged in, immediately move to title fragment
+//        verifyUserSignedIn()
+//    }
+//
+//    private fun verifyUserSignedIn() {
+//        val uid = FirebaseAuth.getInstance().uid
+//        if(uid != null) {
+//            this.findNavController().navigate(
+//                SigninFragmentDirections
+//                    .actionSigninFragmentToTitleFragment()
+//            )
+//        }
+//    }
 
 
     fun performSignin(email: String, password: String) {
@@ -203,9 +226,9 @@ class SigninFragment : Fragment() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         val updates = hashMapOf<String, Any>()
 
-        Log.d(TAG, "[updateLastLocation] uid: ${uid}")
-        Log.d(TAG, "[updateLastLocation] current latitude: ${latitude}")
-        Log.d(TAG, "[updateLastLocation] current longitude: ${longitude}")
+        Log.d(TAG, "[updateCurrentLocation] uid: ${uid}")
+        Log.d(TAG, "[updateCurrentLocation] current latitude: ${latitude}")
+        Log.d(TAG, "[updateCurrentLocation] current longitude: ${longitude}")
 
         updates.put("latitude", latitude!!)
         updates.put("longitude", longitude!!)
@@ -263,8 +286,8 @@ class SigninFragment : Fragment() {
 
 
     companion object {
-        const val PERMISSION_REQUEST_CODE = 1617
-        const val TAG = "Signin"
+        private const val PERMISSION_REQUEST_CODE = 1617
+        private const val TAG = "Signin"
     }
 
 }

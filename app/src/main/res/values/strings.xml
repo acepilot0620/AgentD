@@ -22,4 +22,15 @@
 
     <string name="latitude_prefix">Latitude: %s</string>
     <string name="longitude_prefix">Latitude: %s</string>
+    <string name="title_to_user">User</string>
+    <string name="title_to_form">Create</string>
+    <string name="title_to_detail">Detail</string>
+    <string name="user_username">Username</string>
+    <string name="user_email">Email</string>
+    <string name="user_phone_number">Phone Number</string>
+    <string name="user_balance">Balance (won)</string>
+    <string name="user_latitude">Latitude</string>
+    <string name="user_longitude">Longitude</string>
+    <string name="done_button">Done</string>
+    <string name="user_signout">Sign Out</string>
 </resources>

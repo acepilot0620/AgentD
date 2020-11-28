@@ -119,7 +119,7 @@ class SignupFragment : Fragment() {
     }
 
     companion object {
-        val TAG = "Signup"
+        private const val TAG = "Signup"
     }
 
 }

@@ -13,26 +13,69 @@
     </data>
 
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".title.TitleFragment">
 
-        <androidx.fragment.app.FragmentContainerView
+        <FrameLayout
             android:id="@+id/map_fragment"
-            android:name="com.naver.maps.map.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
-<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/bottom_nav_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="56dp"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:background="#ffffff"-->
-<!--            app:menu="@menu/bottom_menu" />-->
+        </FrameLayout>
 
-    </FrameLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            style="?attr/buttonBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/button_user"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{() -> titleViewModel.onNavtigateToUser()}"
+                android:background="@android:color/background_dark"
+                android:text="@string/title_to_user"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/button_mission_form"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/background_dark"
+                android:text="@string/title_to_form"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button
+                android:id="@+id/button_mission_detail"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/background_dark"
+                android:text="@string/title_to_detail"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
 
