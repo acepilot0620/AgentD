@@ -1,16 +1,12 @@
 package com.example.agentd.signup
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,12 +49,15 @@ class SignupFragment : Fragment() {
                 performSignup(username, email, password, phoneNumber)
 
                 signupViewModel.doneSignup()
+
+                // immediately return to signin fragment
+                signupViewModel.onAlreadyHaveAccount()
             }
         })
 
         signupViewModel.navigateToSignin.observe(viewLifecycleOwner, Observer {
             if(it == true) {
-                Log.d("SignupFragment", "Try to show SigninFragment")
+                Log.d(TAG, "Try to show SigninFragment")
 
                 this.findNavController().navigate(
                     SignupFragmentDirections
@@ -78,10 +77,10 @@ class SignupFragment : Fragment() {
             Toast.makeText(requireActivity(), "Please enter text in email/password", Toast.LENGTH_SHORT).show()
         }
 
-        Log.d("SignupFragment", "Username is: " + username)
-        Log.d("SignupFragment", "email is: " + email)
-        Log.d("SignupFragment", "password is: " + password)
-        Log.d("SignupFragment", "phonenumber is: " + phoneNumber)
+        Log.d(TAG, "Username is: " + username)
+        Log.d(TAG, "email is: " + email)
+        Log.d(TAG, "password is: " + password)
+        Log.d(TAG, "phonenumber is: " + phoneNumber)
 
         // Firebase Authentication to create a user with email and password
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -101,15 +100,12 @@ class SignupFragment : Fragment() {
             }
     }
 
-//    fun authenticateFirebase(email: String, password: String): String? {
-//        return (activity as MainActivity).authenticateFirebase(email, password)
-//    }
 
     private fun saveUserToFirebaseDatabase(uid: String, username: String, email: String, phoneNumber: String) {
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid") // "users" node
         val user = User(uid, username, email, phoneNumber,
             0, // initial balance 0 won
-            37.5642135, 127.0016985 // initial location of center of Seoul city
+            37.5642135, 127.0016985 // initial location as the center of Seoul city
         )
 
         ref.setValue(user)
