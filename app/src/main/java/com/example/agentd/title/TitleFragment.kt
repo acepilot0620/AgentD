@@ -64,6 +64,19 @@ class TitleFragment : Fragment(), OnMapReadyCallback {
             }
         })
 
+        titleViewModel.navigateToMissionForm.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Log.d(TAG, "Try to move MissionFormFragment")
+
+                this.findNavController().navigate(
+                    TitleFragmentDirections
+                        .actionTitleFragmentToMissionFormFragment()
+                )
+
+                titleViewModel.doneNavigateToMissionForm()
+            }
+        })
+
 
 
 
