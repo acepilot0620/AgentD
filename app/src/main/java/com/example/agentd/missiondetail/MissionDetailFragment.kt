@@ -43,5 +43,4 @@ class MissionDetailFragment : Fragment() {
         return binding.root
     }
 
-
 }
