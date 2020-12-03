@@ -57,6 +57,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_title_fragment_to_mission_detail_fragment"
+            app:destination="@id/mission_detail_fragment" />
     </fragment>
     <fragment
         android:id="@+id/user_fragment"
@@ -92,5 +95,18 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mission_detail_fragment"
+        android:name="com.example.agentd.missiondetail.MissionDetailFragment"
+        tools:layout="@layout/fragment_mission_detail"
+        android:label="MissionDetailFragment" >
+        <action
+            android:id="@+id/action_mission_detail_fragment_to_title_fragment"
+            app:destination="@id/title_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 </navigation>
