@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.agentd.R
 import com.example.agentd.data.Mission
+import com.example.agentd.data.MissionCondition
+import com.example.agentd.data.MissionExtend
 import com.example.agentd.data.User
 import com.example.agentd.databinding.FragmentMissionFormBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -50,7 +52,8 @@ class MissionFormFragment : Fragment() {
                 if(condition2.isEmpty()) condition2 = "No condition specified"
                 var condition3: String = binding.formInputCondition3.text.toString()
                 if(condition3.isEmpty()) condition3 = "No condition specified"
-                val additionalInformation: String = binding.formInputAdditionalInformation.text.toString()
+                var additionalInformation: String = binding.formInputAdditionalInformation.text.toString()
+                if(additionalInformation.isEmpty()) additionalInformation = "No information specified"
 
                 // save mission information to databases
                 saveMissionToFirebaseDatabase(
@@ -101,7 +104,7 @@ class MissionFormFragment : Fragment() {
 
                 // create mission instance
                 val mission = Mission(
-                    missionId, ordererUid, agentUid = "", product,
+                    missionId, ordererUid, agentUid = "Agent not matched", product,
                     user!!.latitude, user!!.longitude,
                     destinationName, destinationLatitude, destinationLongitude,
                     receiverPhone,

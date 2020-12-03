@@ -9,10 +9,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.agentd.R
+import com.example.agentd.data.Mission
+import com.example.agentd.data.MissionExtend
 import com.example.agentd.databinding.FragmentTitleBinding
 import com.example.agentd.signin.SigninFragmentDirections
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
 
 class TitleFragment : Fragment(), OnMapReadyCallback {
 
@@ -53,7 +63,7 @@ class TitleFragment : Fragment(), OnMapReadyCallback {
 
         titleViewModel.navigateToUser.observe(viewLifecycleOwner, Observer {
             if(it == true) {
-                Log.d(TAG, "Try to show SignupFragment")
+                Log.d(TAG, "Try to show UserFragment")
 
                 this.findNavController().navigate(
                     TitleFragmentDirections
@@ -78,9 +88,6 @@ class TitleFragment : Fragment(), OnMapReadyCallback {
         })
 
 
-
-
-
         return binding.root
     }
 
@@ -95,11 +102,54 @@ class TitleFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(naverMap: NaverMap) {
+        // Always MARKER FIRST!
+        val ref = FirebaseDatabase.getInstance().getReference("/missions/")
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach{
+                    Log.d(TAG, "Successfully load data from database: ${it}")
+                    val mission : Mission? = it.getValue(Mission::class.java)
+
+                    Marker().apply {
+                        position = LatLng(mission!!.sourceLatitude, mission!!.sourceLongitude)
+                        map = naverMap
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, "Failed to load data from database: ", databaseError.toException())
+            }
+        })
+
         map = naverMap
-
         naverMap.locationSource = locationSource
-
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
+
+        Log.d(TAG, "Ready for load the map")
+    }
+
+    private fun setMarkers(naverMap: NaverMap){
+        val ref = FirebaseDatabase.getInstance().getReference("/missions/")
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach{
+                    Log.d(TAG, "Successfully load data from database: ${it}")
+                    val mission : Mission? = it.getValue(Mission::class.java)
+
+                    val marker =  Marker()
+                    marker.position = LatLng(mission!!.sourceLatitude,mission!!.sourceLatitude)
+                    marker.map = naverMap
+                    marker.icon = MarkerIcons.BLACK
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, "Failed to load data from database: ", databaseError.toException())
+            }
+        })
     }
 
     companion object {
