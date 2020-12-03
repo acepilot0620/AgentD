@@ -52,7 +52,11 @@
             app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_title_fragment_to_mission_form_fragment"
-            app:destination="@id/mission_form_fragment" />
+            app:destination="@id/mission_form_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/user_fragment"
@@ -83,6 +87,10 @@
         android:label="MissionFormFragment" >
         <action
             android:id="@+id/action_mission_form_fragment_to_title_fragment"
-            app:destination="@id/title_fragment" />
+            app:destination="@id/title_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

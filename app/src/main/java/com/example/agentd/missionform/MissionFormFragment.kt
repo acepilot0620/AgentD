@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.agentd.R
 import com.example.agentd.data.Mission
+import com.example.agentd.data.MissionCondition
+import com.example.agentd.data.MissionExtend
 import com.example.agentd.data.User
 import com.example.agentd.databinding.FragmentMissionFormBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -100,15 +102,15 @@ class MissionFormFragment : Fragment() {
                 val user: User? = p0.getValue(User::class.java)
 
                 // create mission instance
-                val mission = Mission(
+                val mission = MissionExtend(
                     missionId, ordererUid, agentUid = "", product,
                     user!!.latitude, user!!.longitude,
                     destinationName, destinationLatitude, destinationLongitude,
                     receiverPhone,
                     reward,
-                    condition1, false,
-                    condition2, false,
-                    condition3, false,
+                    MissionCondition(condition1, false),
+                    MissionCondition(condition2, false),
+                    MissionCondition(condition3, false),
                     additionalInformation
                 )
 
