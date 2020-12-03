@@ -1,23 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="missionDetailViewModel"
             type="com.example.agentd.missiondetail.MissionDetailViewModel" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".missiondetail.MissionDetailFragment">
 
-        <TextView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/detail_label_title"
+                    style="@style/TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Mission Details"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/detail_button_call"
+                    android:layout_width="70dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00ff0000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/callbutton"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_label_title"
+                    app:layout_constraintStart_toEndOf="@+id/detail_label_title"
+                    app:layout_constraintTop_toTopOf="@+id/detail_label_title" />
+
+                <TextView
+                    android:id="@+id/detail_label_product"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Product"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_label_title" />
+
+                <TextView
+                    android:id="@+id/detail_text_product"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Ball"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_label_product"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/detail_label_product"
+                    app:layout_constraintTop_toTopOf="@+id/detail_label_product" />
+
+                <TextView
+                    android:id="@+id/detail_label_reward"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Reward"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_product"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_product" />
+
+                <TextView
+                    android:id="@+id/detail_text_reward"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="2000 won"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_label_reward"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_product"
+                    app:layout_constraintHorizontal_bias="0.52"
+                    app:layout_constraintStart_toEndOf="@+id/detail_label_reward"
+                    app:layout_constraintTop_toTopOf="@+id/detail_label_reward" />
+
+                <TextView
+                    android:id="@+id/detail_label_destination"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Destination"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_reward"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_reward" />
+
+                <TextView
+                    android:id="@+id/detail_text_destination"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Seoul Station"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_label_destination"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_reward"
+                    app:layout_constraintStart_toEndOf="@+id/detail_label_destination"
+                    app:layout_constraintTop_toTopOf="@+id/detail_label_destination" />
+
+                <FrameLayout
+                    android:id="@+id/detail_map_fragment"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:visibility="visible"
+                    app:layout_constraintDimensionRatio="w,1:2"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_destination"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_destination"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_destination">
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/detail_label_conditions"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/layout_padding"
+                    android:paddingRight="@dimen/layout_padding"
+                    android:text="Conditions"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_destination"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_destination"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_map_fragment" />
+
+                <TextView
+                    android:id="@+id/detail_text_condition1"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Condition1"
+                    app:layout_constraintEnd_toStartOf="@+id/detail_checkbox_condition1"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_conditions"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_label_conditions" />
+
+                <CheckBox
+                    android:id="@+id/detail_checkbox_condition1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition1"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_label_conditions"
+                    app:layout_constraintTop_toTopOf="@+id/detail_text_condition1"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/detail_text_condition2"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Condition2"
+                    app:layout_constraintEnd_toStartOf="@+id/detail_checkbox_condition2"
+                    app:layout_constraintStart_toStartOf="@+id/detail_text_condition1"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_condition1" />
+
+                <CheckBox
+                    android:id="@+id/detail_checkbox_condition2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition2"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_checkbox_condition1"
+                    app:layout_constraintTop_toTopOf="@+id/detail_text_condition2" />
+
+                <TextView
+                    android:id="@+id/detail_text_condition3"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Condition3"
+                    app:layout_constraintEnd_toStartOf="@+id/detail_checkbox_condition3"
+                    app:layout_constraintStart_toStartOf="@+id/detail_text_condition2"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_condition2" />
+
+                <CheckBox
+                    android:id="@+id/detail_checkbox_condition3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition3"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_checkbox_condition2"
+                    app:layout_constraintTop_toTopOf="@+id/detail_text_condition3" />
+
+                <TextView
+                    android:id="@+id/detail_label_additional_information"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Additional Information"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_checkbox_condition3"
+                    app:layout_constraintStart_toStartOf="@+id/detail_text_condition3"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_condition3" />
+
+                <TextView
+                    android:id="@+id/detail_text_additional_information"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Additional informations"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_label_additional_information"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_additional_information"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_label_additional_information" />
+
+                <TextView
+                    android:id="@+id/detail_label_status"
+                    style="@style/TextStyleTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Status"
+                    app:layout_constraintStart_toStartOf="@+id/detail_text_additional_information"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_additional_information" />
+
+                <TextView
+                    android:id="@+id/detail_text_status"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="Pending"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_label_status"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_additional_information"
+                    app:layout_constraintStart_toEndOf="@+id/detail_label_status"
+                    app:layout_constraintTop_toTopOf="@+id/detail_label_status" />
+
+                <Button
+                    android:id="@+id/detail_button_complete"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Complete"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_status"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_status"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_text_status" />
+
+                <Button
+                    android:id="@+id/detail_busson_accept"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Accept"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_status"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_status"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_button_complete" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
 </layout>

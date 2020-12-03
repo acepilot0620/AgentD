@@ -12,5 +12,6 @@
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="text_user_prefix_size">22sp</dimen>
     <dimen name="text_user_main_size">20sp</dimen>
+    <dimen name="text_user_sub_size">18sp</dimen>
     <dimen name="text_user_main_height">40dp</dimen>
 </resources>

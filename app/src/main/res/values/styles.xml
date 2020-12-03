@@ -17,4 +17,27 @@
         <item name="android:textSize">@dimen/text_size</item>
     </style>
 
+    <style name="TextStyleTitle1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_user_prefix_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/layout_padding</item>
+        <item name="android:paddingRight">@dimen/layout_padding</item>
+    </style>
+
+    <style name="TextStyleTitle2">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_user_main_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/layout_padding</item>
+        <item name="android:paddingRight">@dimen/layout_padding</item>
+    </style>
+
+    <style name="TextStyleSmall">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_user_sub_size</item>
+        <item name="android:paddingLeft">@dimen/layout_padding</item>
+        <item name="android:paddingRight">@dimen/layout_padding</item>
+    </style>
+
 </resources>
