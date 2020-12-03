@@ -52,7 +52,8 @@ class MissionFormFragment : Fragment() {
                 if(condition2.isEmpty()) condition2 = "No condition specified"
                 var condition3: String = binding.formInputCondition3.text.toString()
                 if(condition3.isEmpty()) condition3 = "No condition specified"
-                val additionalInformation: String = binding.formInputAdditionalInformation.text.toString()
+                var additionalInformation: String = binding.formInputAdditionalInformation.text.toString()
+                if(additionalInformation.isEmpty()) additionalInformation = "No information specified"
 
                 // save mission information to databases
                 saveMissionToFirebaseDatabase(
@@ -102,15 +103,15 @@ class MissionFormFragment : Fragment() {
                 val user: User? = p0.getValue(User::class.java)
 
                 // create mission instance
-                val mission = MissionExtend(
-                    missionId, ordererUid, agentUid = "", product,
+                val mission = Mission(
+                    missionId, ordererUid, agentUid = "Agent not matched", product,
                     user!!.latitude, user!!.longitude,
                     destinationName, destinationLatitude, destinationLongitude,
                     receiverPhone,
                     reward,
-                    MissionCondition(condition1, false),
-                    MissionCondition(condition2, false),
-                    MissionCondition(condition3, false),
+                    condition1, false,
+                    condition2, false,
+                    condition3, false,
                     additionalInformation
                 )
 

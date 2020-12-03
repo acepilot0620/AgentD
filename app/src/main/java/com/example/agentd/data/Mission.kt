@@ -2,18 +2,18 @@ package com.example.agentd.data
 
 import com.google.firebase.database.Exclude
 
-data class Mission(val missionId: String,
-                   val ordererUid: String,
-                   val agentUid: String,
-                   val product: String,
-                   val sourceLatitude: Double, val sourceLongitude: Double,
-                   val destinationName: String, val destinationLatitude: Double, val destinationLongitude: Double,
-                   val receiverPhone: String,
-                   val reward: Int,
-                   val condition1: String, val condition1Complete: Boolean,
-                   val condition2: String, val condition2Complete: Boolean,
-                   val condition3: String, val condition3Complete: Boolean,
-                   val additionalInformation: String) {
+data class Mission(val missionId: String = "",
+                   val ordererUid: String = "",
+                   val agentUid: String = "",
+                   val product: String = "",
+                   val sourceLatitude: Double = 0.0, val sourceLongitude: Double = 0.0,
+                   val destinationName: String = "", val destinationLatitude: Double = 0.0, val destinationLongitude: Double = 0.0,
+                   val receiverPhone: String = "",
+                   val reward: Int = 0,
+                   val condition1: String = "", val condition1Complete: Boolean = false,
+                   val condition2: String = "", val condition2Complete: Boolean = false,
+                   val condition3: String = "", val condition3Complete: Boolean = false,
+                   val additionalInformation: String = "") {
 
     @Exclude
     fun toMap(): Map<String, Any?> {
