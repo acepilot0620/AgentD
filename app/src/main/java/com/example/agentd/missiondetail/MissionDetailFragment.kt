@@ -172,6 +172,11 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                         binding.detailButtonComplete.isEnabled = false
                         binding.detailButtonComplete.visibility = View.GONE
                     }
+                } else if (fromOrderer!!) {
+                    if (mission!!.completed && mission!!.confirmed) {
+                        binding.detailButtonConfirm.isEnabled = false
+                        binding.detailButtonConfirm.visibility = View.GONE
+                    }
                 }
             }
             override fun onCancelled(p0: DatabaseError) {

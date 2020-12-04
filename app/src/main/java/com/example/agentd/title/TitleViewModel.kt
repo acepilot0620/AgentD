@@ -23,6 +23,9 @@ class TitleViewModel : ViewModel() {
     val navigateToMissionAgent: LiveData<Boolean?>
         get() = _navigateToMissionAgent
 
+    private val _navigateToMissionList = MutableLiveData<Boolean?>()
+    val navigateToMissionList: LiveData<Boolean?>
+        get() = _navigateToMissionList
 
 
     fun onNavtigateToUser() {
@@ -55,6 +58,15 @@ class TitleViewModel : ViewModel() {
 
     fun doneNavigateToMissionAgent() {
         _navigateToMissionAgent.value = null
+    }
+
+
+    fun onNavigateToMissionList() {
+        _navigateToMissionList.value = true
+    }
+
+    fun doneNavigateToMissionList() {
+        _navigateToMissionList.value = null
     }
 
 }

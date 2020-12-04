@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.agentd.data.Mission
 import com.example.agentd.databinding.ListItemMissionBinding
 
-class MissionAgentAdapter(val clickListener: MissionListener):
-    ListAdapter<Mission, MissionAgentAdapter.ViewHolder>(MissionDiffCallback()) {
+class MissionAdapter(val clickListener: MissionListener):
+    ListAdapter<Mission, MissionAdapter.ViewHolder>(MissionDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
