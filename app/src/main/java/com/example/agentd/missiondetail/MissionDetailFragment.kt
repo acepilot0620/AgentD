@@ -163,6 +163,14 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                             }
 
                         })
+                    } else if (mission!!.completed && mission!!.confirmed) {
+                        // if agent see the order history (already completed and confirmed
+                        binding.detailButtonCall.isClickable = false
+                        binding.detailCheckboxCondition1.isEnabled = false
+                        binding.detailCheckboxCondition2.isEnabled = false
+                        binding.detailCheckboxCondition3.isEnabled = false
+                        binding.detailButtonComplete.isEnabled = false
+                        binding.detailButtonComplete.visibility = View.GONE
                     }
                 }
             }
