@@ -71,6 +71,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/background_dark"
                 android:text="@string/title_to_detail"
+                android:onClick="@{() -> titleViewModel.onNavigateToMissionAgent()}"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/button_text_size" />
         </LinearLayout>

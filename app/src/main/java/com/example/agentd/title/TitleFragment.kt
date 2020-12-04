@@ -97,6 +97,20 @@ class TitleFragment : Fragment(), OnMapReadyCallback {
         })
 
 
+        titleViewModel.navigateToMissionAgent.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Log.d(TAG, "Try to show MissionAgentFragment")
+
+                this.findNavController().navigate(
+                    TitleFragmentDirections
+                        .actionTitleFragmentToMissionAgentFragment()
+                )
+
+                titleViewModel.doneNavigateToMissionAgent()
+            }
+        })
+
+
         titleViewModel.navigateToMissionDetail.observe(viewLifecycleOwner, Observer { mission ->
             // definately need null check "?"
             mission?.let {

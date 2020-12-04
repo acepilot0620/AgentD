@@ -64,6 +64,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_title_fragment_to_mission_agent_fragment"
+            app:destination="@id/mission_agent_fragment" />
     </fragment>
     <fragment
         android:id="@+id/user_fragment"
@@ -133,4 +136,9 @@
             app:argType="boolean" />
 
     </fragment>
+    <fragment
+        android:id="@+id/mission_agent_fragment"
+        android:name="com.example.agentd.missionagent.MissionAgentFragment"
+        tools:layout="@layout/fragment_mission_agent"
+        android:label="MissionAgentFragment" />
 </navigation>

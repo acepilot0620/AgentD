@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -23,6 +24,7 @@ import com.example.agentd.data.User
 import com.example.agentd.databinding.FragmentMissionFormBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.time.Duration
 import java.util.*
 
 class MissionFormFragment : Fragment() {
@@ -49,32 +51,22 @@ class MissionFormFragment : Fragment() {
         binding.setLifecycleOwner(this)
 
 
-//        binding.formInputDestinationName.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//            override fun afterTextChanged(s: Editable?) {
-//                Log.d(TAG, "edited text: ${s.toString()}")
-//            }
-//        })
-
-//        binding.formInputDestinationName.setOnKeyListener(object : View.OnKeyListener{
-//            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-//                if ((event!!.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                    val text = binding.formInputDestinationName.toString()
-//                    Log.d(TAG, "destination name: $text")
-//                    return true
-//                }
-//                return false
-//            }
-//        })
-
         binding.formInputDestinationName.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
                         // read entered text
-                        val text = binding.formInputDestinationName.text.toString()
-                        Log.d(TAG, "destination name: $text")
+                        val address = binding.formInputDestinationName.text.toString()
+                        Log.d(TAG, "destination name: $address")
+
+                        val latLng: Pair<Double, Double>? = getLatLngFromAddress(requireActivity(), address)
+
+                        if(latLng == null) {
+                            Toast.makeText(requireActivity(), "$address not exists. try other address.", Toast.LENGTH_SHORT).show()
+                            binding.formInputDestinationName.setText("")
+                        } else {
+                            Log.d(TAG, "Latitude: ${latLng!!.first}\t Longitude: ${latLng.second}")
+                        }
                     }
                 }
                 // hide keyboard
@@ -144,14 +136,16 @@ class MissionFormFragment : Fragment() {
 
         try {
             geoResults = geocoder.getFromLocationName(addressString, 1)
+            var i = 0
             while (geoResults!!.size == 0) {
                 geoResults = geocoder.getFromLocationName(addressString, 1)
+                i += 1
+                if(i > 10) break
             }
             if (geoResults!!.size > 0) {
                 var firstAddress: Address? = geoResults.get(0)
                 latLng = Pair(firstAddress!!.latitude, firstAddress!!.longitude)
             }
-
         } catch (e: Exception) {
             Log.d(TAG, "$e")
         }
