@@ -66,6 +66,8 @@ class MissionFormFragment : Fragment() {
                             binding.formInputDestinationName.setText("")
                         } else {
                             Log.d(TAG, "Latitude: ${latLng!!.first}\t Longitude: ${latLng.second}")
+                            binding.formInputDestinationLatitude.setText(latLng.first.toString())
+                            binding.formInputDestinationLongitude.setText(latLng.second.toString())
                         }
                     }
                 }

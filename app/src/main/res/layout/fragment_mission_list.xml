@@ -6,18 +6,18 @@
     <data>
 
         <variable
-            name="missionOrdererViewModel"
-            type="com.example.agentd.missionorderer.MissionOrdererViewModel" />
+            name="missionListViewModel"
+            type="com.example.agentd.missionlist.MissionListViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".missionorderer.MissionOrdererFragment">
+        tools:context=".missionlist.MissionListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mission_orderer_list"
+            android:id="@+id/mission_list_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"

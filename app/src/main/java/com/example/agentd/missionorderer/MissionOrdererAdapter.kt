@@ -1,15 +1,16 @@
-package com.example.agentd.missionagent
+package com.example.agentd.missionorderer
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.agentd.data.Mission
 import com.example.agentd.databinding.ListItemMissionBinding
+import com.example.agentd.missionagent.MissionDiffCallback
+import com.example.agentd.missionagent.MissionListener
 
-class MissionAdapter(val clickListener: MissionListener):
-    ListAdapter<Mission, MissionAdapter.ViewHolder>(MissionDiffCallback()) {
+class MissionOrdererAdapter(val clickListener: MissionListener):
+    ListAdapter<Mission, MissionOrdererAdapter.ViewHolder>(MissionDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,24 +40,4 @@ class MissionAdapter(val clickListener: MissionListener):
             }
         }
     }
-}
-
-
-
-class MissionDiffCallback : DiffUtil.ItemCallback<Mission>() {
-
-    override fun areItemsTheSame(oldItem: Mission, newItem: Mission): Boolean {
-        return oldItem.missionId == newItem.missionId
-    }
-
-
-    override fun areContentsTheSame(oldItem: Mission, newItem: Mission): Boolean {
-        return oldItem == newItem
-    }
-
-
-}
-
-class MissionListener(val clickListener: (missionId: String) -> Unit) {
-    fun onClick(mission: Mission) = clickListener(mission.missionId)
 }

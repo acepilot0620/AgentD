@@ -54,4 +54,6 @@
     <string name="status_complete">Complete</string>
     <string name="status_ask_for_confirm">Ask for confirmation</string>
     <string name="status_confirmed">Confirmed</string>
+    <string name="list_item_product">Product</string>
+    <string name="list_item_destination_name">Destination Name</string>
 </resources>

@@ -140,5 +140,14 @@
         android:id="@+id/mission_agent_fragment"
         android:name="com.example.agentd.missionagent.MissionAgentFragment"
         tools:layout="@layout/fragment_mission_agent"
-        android:label="MissionAgentFragment" />
+        android:label="MissionAgentFragment" >
+        <action
+            android:id="@+id/action_mission_agent_fragment_to_mission_detail_fragment"
+            app:destination="@id/mission_detail_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/missionListFragment"
+        android:name="com.example.agentd.missionlist.MissionListFragment"
+        tools:layout="@layout/fragment_mission_list"
+        android:label="MissionListFragment" />
 </navigation>

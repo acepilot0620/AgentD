@@ -5,11 +5,19 @@
 
     <data>
 
+        <variable
+            name="mission"
+            type="com.example.agentd.data.Mission" />
+        <variable
+            name="clickListener"
+            type="com.example.agentd.missionagent.MissionListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(mission)}">
 
         <TextView
             android:id="@+id/mission_product"
@@ -20,10 +28,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="5"
-            android:text="Title"
+            android:background="?attr/colorButtonNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:setProductText="@{mission}"
+            tools:text="@string/list_item_product" />
 
         <TextView
             android:id="@+id/mission_destination"
@@ -32,11 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_weight="3"
-            android:text="2020-01-01"
+            tools:text="@string/list_item_destination_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/mission_product"
             app:layout_constraintStart_toStartOf="@+id/mission_product"
-            app:layout_constraintTop_toBottomOf="@+id/mission_product" />
+            app:layout_constraintTop_toBottomOf="@+id/mission_product"
+            app:setDestinationNameText="@{mission}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
