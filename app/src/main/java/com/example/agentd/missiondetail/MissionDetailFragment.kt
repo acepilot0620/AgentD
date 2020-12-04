@@ -1,26 +1,44 @@
 package com.example.agentd.missiondetail
 
-import androidx.lifecycle.ViewModelProviders
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.agentd.R
+import com.example.agentd.data.Mission
+import com.example.agentd.data.User
 import com.example.agentd.databinding.FragmentMissionDetailBinding
-import com.example.agentd.databinding.FragmentTitleBinding
-import com.example.agentd.title.TitleViewModel
-import com.example.agentd.title.TitleViewModelFactory
+import com.google.android.gms.location.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
 
-class MissionDetailFragment : Fragment() {
+class MissionDetailFragment : Fragment(), OnMapReadyCallback {
 
-    companion object {
-        fun newInstance() = MissionDetailFragment()
-    }
+    private lateinit var missionDetailViewModel: MissionDetailViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationSource: FusedLocationSource
+    private lateinit var map: NaverMap
+    private lateinit var uid: String
+    private lateinit var missionId: String
 
-    private lateinit var viewModel: MissionDetailViewModel
+    private var fromAgent: Boolean? = null
+    private var fromOrderer: Boolean? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,10 +47,17 @@ class MissionDetailFragment : Fragment() {
         val binding: FragmentMissionDetailBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_mission_detail, container, false)
 
+        val arguments = MissionDetailFragmentArgs.fromBundle(requireArguments())
+        fromAgent = arguments.fromAgent
+        fromOrderer = arguments.fromOrderer
+        // print mission on layout
+        missionId = arguments.missionId.toString() // null case
+        Log.d(TAG, "Successfully get missionId: $missionId")
+
         val viewModelFactory = MissionDetailViewModelFactory()
 
         // Get a reference to the ViewModel associated with this fragment.
-        val missionDetailViewModel =
+        missionDetailViewModel =
             ViewModelProvider(
                 this, viewModelFactory).get(MissionDetailViewModel::class.java)
 
@@ -40,7 +65,403 @@ class MissionDetailFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
+        uid = FirebaseAuth.getInstance().uid ?:""
+        Log.d(TAG, uid)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        val mapFragment: MapFragment
+
+        if(arguments.fromTitle) {
+            // Accept button only
+            binding.detailMapFragment.visibility = View.GONE
+            binding.detailButtonComplete.visibility = View.GONE
+            binding.detailButtonConfirm.visibility = View.GONE
+            binding.detailCheckboxCondition1.isEnabled = false
+            binding.detailCheckboxCondition2.isEnabled = false
+            binding.detailCheckboxCondition3.isEnabled = false
+        } else if(arguments.fromAgent) {
+            // Complete button only
+            binding.detailMapFragment.visibility = View.GONE
+            binding.detailButtonAccept.visibility = View.GONE
+            binding.detailButtonConfirm.visibility = View.GONE
+
+            // start update location
+            requestLocationUpdates()
+
+        } else if(arguments.fromOrderer) {
+            // Map for tracking and
+            binding.detailButtonAccept.visibility = View.GONE
+            binding.detailButtonComplete.visibility = View.GONE
+            binding.detailCheckboxCondition1.isEnabled = false
+            binding.detailCheckboxCondition2.isEnabled = false
+            binding.detailCheckboxCondition3.isEnabled = false
+            binding.detailButtonConfirm.isEnabled = false
+
+            // get ready for naver map location tracking
+            // The map also contains agent's current location (expressed by marker)
+            mapFragment = childFragmentManager.findFragmentById(R.id.detail_map_fragment) as MapFragment?
+                ?: MapFragment.newInstance(NaverMapOptions().locationButtonEnabled(false)).also {
+                    childFragmentManager.beginTransaction().add(R.id.detail_map_fragment, it).commit()
+                }
+            mapFragment.getMapAsync(this)
+
+            locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        }
+
+
+        // fetch mission information
+        val ref = FirebaseDatabase.getInstance().getReference("/missions/$missionId")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                Log.d(TAG, p0.toString())
+                val mission: Mission? = p0.getValue(Mission::class.java)
+
+                // show saved value to user
+                binding.detailTextProduct.setText(mission!!.product)
+                binding.detailTextReward.setText(mission!!.reward.toString())
+                binding.detailTextDestination.setText(mission!!.destinationName)
+
+                binding.detailTextCondition1.setText(mission!!.condition1)
+                binding.detailCheckboxCondition1.isChecked = mission!!.condition1Complete
+
+                binding.detailTextCondition2.setText(mission!!.condition2)
+                binding.detailCheckboxCondition2.isChecked = mission!!.condition2Complete
+
+                binding.detailTextCondition3.setText(mission!!.condition3)
+                binding.detailCheckboxCondition3.isChecked = mission!!.condition3Complete
+
+                binding.detailTextAdditionalInformation.setText(mission!!.additionalInformation)
+
+                // when the agent wait for confirmation from orderer
+                if(fromAgent!!) {
+                    if(mission!!.completed && !mission!!.confirmed) {
+                        binding.detailTextStatus.setText("Ask for confirmation")
+                        binding.detailButtonComplete.isEnabled = false
+                        binding.detailButtonComplete.visibility = View.GONE
+                    }
+                } else {
+                    binding.detailTextStatus.setText(mission!!.status)
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d(TAG, "Failed to get mission information")
+
+            }
+        })
+
+        val checkboxes = listOf(
+            Pair("condition1Complete", binding.detailCheckboxCondition1),
+            Pair("condition2Complete", binding.detailCheckboxCondition2),
+            Pair("condition3Complete", binding.detailCheckboxCondition3)
+        )
+
+        if(arguments.fromOrderer) {
+            // realtime update for checkbox
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    // if somebody accepts the mission
+                    binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+
+                    // if the agent complete the mission, enable confirm button
+                    // and update changed status
+                    if(p0.child("completed").getValue() == true) {
+                        binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+                        binding.detailButtonConfirm.isEnabled = true
+
+                    }
+
+                    // checking check box status
+                    checkboxes.forEach {
+                        if(p0.child(it.first).getValue() == true) {
+                            it.second.isChecked = true
+                        }
+                    }
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.d(TAG, "Failed to get mission information for updating checkbox")
+                }
+
+            })
+        } else if(arguments.fromAgent) {
+            missionDetailViewModel.checkBoxChecked.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    Log.d(TAG, "$it")
+                    val modList = mutableListOf<Pair<String, Any>>()
+                    modList.add(Pair(checkboxes[it].first, true))
+                    updateMissionInformationByField(missionId.toString(), modList, false)
+
+                    missionDetailViewModel.doneCheckBoxChecked()
+                }
+            })
+        } else if(arguments.fromTitle) {
+            // for ordinary user, if agent occurs when they watch mission detail,
+            ref.child("agentUid").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    // get back to title
+                    if(p0.getValue() != "Agent not matched") missionDetailViewModel.onNavigateToTitle()
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.d(TAG, "Failed to get mission information for updating checkbox")
+                }
+
+            })
+        }
+
+
+        // for agent
+        missionDetailViewModel.acceptMission.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                val modList = mutableListOf<Pair<String, Any>>()
+                modList.add(Pair("agentUid", uid))
+                modList.add(Pair("status", "On delivery"))
+
+                // remove accept button
+                binding.detailButtonAccept.visibility = View.GONE
+                // now he can press accept button
+                binding.detailButtonComplete.visibility = View.VISIBLE
+                // enable checkbox
+                binding.detailCheckboxCondition1.isEnabled = true
+                binding.detailCheckboxCondition2.isEnabled = true
+                binding.detailCheckboxCondition3.isEnabled = true
+                // set status to On delivery
+                binding.detailTextStatus.setText("On delivery")
+
+                // update that the user accept the order
+                updateMissionInformationByField(missionId.toString(), modList, true)
+
+                missionDetailViewModel.doneAcceptMission()
+            }
+        })
+
+        // for agent
+        missionDetailViewModel.completeMission.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                val modList = mutableListOf<Pair<String, Any>>()
+                modList.add(Pair("completed", true))
+                modList.add(Pair("status", "Complete"))
+
+                binding.detailButtonComplete.visibility = View.GONE
+
+                updateMissionInformationByField(missionId.toString(), modList, false)
+
+                binding.detailTextStatus.setText("Ask for confirmation")
+
+
+                ref.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if(p0.child("confirmed").getValue() == true) {
+                            binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+                            missionDetailViewModel.onNavigateToTitle()
+                        }
+                    }
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.d(TAG, "Failed to get mission information for updating completion")
+                    }
+
+                })
+//                ref.addChildEventListener(object : ChildEventListener {
+//                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+//                        if(p0.child("confirmed").getValue() == true) {
+//                            binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+//                            missionDetailViewModel.onNavigateToTitle()
+//                        }
+//                    }
+//                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {}
+//                    override fun onChildRemoved(p0: DataSnapshot) {}
+//                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {}
+//                    override fun onCancelled(p0: DatabaseError) {
+//                        Log.d(TAG, "Change listener for confirmed failed")
+//                    }
+//                })
+
+                missionDetailViewModel.doneCompleteMission()
+            }
+        })
+
+        // for orderer
+        missionDetailViewModel.confirmMissionResult.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                val modList = mutableListOf<Pair<String, Any>>()
+                modList.add(Pair("confirmed", true))
+                modList.add(Pair("status", "Confirmed"))
+
+                updateMissionInformationByField(missionId.toString(), modList, true)
+
+                missionDetailViewModel.doneConfirmMissionResult()
+            }
+        })
+
+
+        missionDetailViewModel.navigateToTitle.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+
+                this.findNavController().navigate(
+                    MissionDetailFragmentDirections
+                        .actionMissionDetailFragmentToTitleFragment()
+                )
+                missionDetailViewModel.doneNavigateToTitle()
+            }
+        })
+
+
+
         return binding.root
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if(fromAgent!!) stopLocationUpdates()
+    }
+
+
+    // For orderer only
+    override fun onMapReady(naverMap: NaverMap) {
+
+        // get uid for agent
+        val ref = FirebaseDatabase.getInstance().getReference("/missions/$missionId")
+        ref.child("agentUid").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val agentUid = p0.getValue().toString()
+                Log.d(TAG, "Get agent $agentUid 's location")
+
+                if(agentUid != "Agent not matched") {
+                    // reference agent's current location and show it on the map
+                    val refUser = FirebaseDatabase.getInstance().getReference("/users/$agentUid")
+                    refUser.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(p0: DataSnapshot) {
+                            Log.d(TAG, p0.toString())
+                            val user: User? = p0.getValue(User::class.java)
+
+                            val latitude: Double = user!!.latitude
+                            val longitude: Double = user!!.longitude
+                            Log.d(TAG, "Agent ${user.uid} location update (latitude: $latitude longitude: $longitude)")
+
+                            // set marker
+                            val marker = Marker()
+                            marker.position = LatLng(latitude, longitude)
+                            // marker.icon = OverlayImage.fromResource(R.drawable.circle_shadow)
+                            marker.icon = MarkerIcons.RED
+                            marker.width = Marker.SIZE_AUTO
+                            marker.height = Marker.SIZE_AUTO
+                            marker.map = naverMap
+
+                            val cameraUpdate = CameraUpdate.scrollTo(LatLng(latitude, longitude))
+                                .animate(CameraAnimation.Easing)
+                            naverMap.moveCamera(cameraUpdate)
+
+                        }
+                        override fun onCancelled(p0: DatabaseError) {
+                            Log.d(TAG, "Change listener for marker failed")
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d(TAG, "Failed to load agentUid from database: ", p0.toException())
+            }
+        })
+
+         map = naverMap
+         // naverMap.locationSource = locationSource
+         // naverMap.locationTrackingMode = LocationTrackingMode.Follow
+
+        Log.d(TAG, "Ready for load the map")
+    }
+
+
+    private fun <T: Any> updateMissionInformationByField(missionId: String, contents: List<Pair<String, T>>, backToTitle: Boolean) {
+        val ref = FirebaseDatabase.getInstance().getReference("/missions/$missionId")
+        val updates = hashMapOf<String, Any>()
+
+        Log.d(TAG, "[updateMissionInformationOneField] missionId: ${missionId}\t uid: ${uid}")
+
+        contents.forEach {
+            updates.put(it.first, it.second)
+        }
+
+        if(backToTitle) missionDetailViewModel.onNavigateToTitle()
+
+        ref.updateChildren(updates)
+            .addOnSuccessListener {
+                Log.d(TAG, "Successfully update database")
+
+            }
+            .addOnFailureListener {
+                // for logging purposes
+            }
+
+    }
+
+    private fun requestLocationUpdates() {
+        var locationRequest =  LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 7500
+        locationRequest.fastestInterval = 5000
+
+        val permission: Int = ActivityCompat.checkSelfPermission(
+            requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if(permission == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient!!.requestLocationUpdates(
+                locationRequest, locationCallback, Looper.myLooper()
+            )
+        }
+    }
+
+
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+        Log.d(TAG, "done updating location of agent")
+    }
+
+
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            var currentLocation: Location = locationResult.lastLocation
+            var currentLatitude: Double = currentLocation!!.latitude
+            var currentLongitude: Double = currentLocation!!.longitude
+
+
+            Log.d(TAG, "[requestLocationUpdates] current latitude: ${currentLatitude}")
+            Log.d(TAG, "[requestLocationUpdates] current longitude: ${currentLongitude}")
+
+            // update current location to database
+            updateCurrentLocation(uid, currentLatitude, currentLongitude)
+
+        }
+    }
+
+
+    private fun updateCurrentLocation(uid: String, latitude: Double?, longitude: Double?) {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val updates = hashMapOf<String, Any>()
+
+        Log.d(TAG, "[updateCurrentLocation] uid: ${uid}")
+        Log.d(TAG, "[updateCurrentLocation] current latitude: ${latitude}")
+        Log.d(TAG, "[updateCurrentLocation] current longitude: ${longitude}")
+
+        updates.put("latitude", latitude!!)
+        updates.put("longitude", longitude!!)
+
+        ref.updateChildren(updates)
+            .addOnSuccessListener {
+                Log.d(TAG, "Successfully update location for $uid")
+            }
+            .addOnFailureListener {
+                // for logging purposes
+            }
+
+    }
+
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 200
+        private const val TAG = "MissionDetail"
+    }
+
 
 }

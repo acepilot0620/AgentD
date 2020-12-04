@@ -21,6 +21,8 @@ import com.google.firebase.database.*
 
 class MissionFormFragment : Fragment() {
 
+    private lateinit var missionFormViewModel: MissionFormViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -29,7 +31,7 @@ class MissionFormFragment : Fragment() {
 
         val viewModelFactory = MissionFormViewModelFactory()
 
-        val missionFormViewModel =
+        missionFormViewModel =
             ViewModelProvider(
                 this, viewModelFactory).get(MissionFormViewModel::class.java)
 
@@ -65,9 +67,6 @@ class MissionFormFragment : Fragment() {
                 )
 
                 missionFormViewModel.doneCreateMission()
-
-                // go back to title fragment
-                missionFormViewModel.onNavigateToTitle()
             }
         })
 
@@ -112,8 +111,13 @@ class MissionFormFragment : Fragment() {
                     condition1, false,
                     condition2, false,
                     condition3, false,
-                    additionalInformation
+                    additionalInformation,
+                    "Wait for agent",
+                    false, false
                 )
+
+                // go back to title fragment
+                missionFormViewModel.onNavigateToTitle()
 
                 // hand over mission instance to database
                 ref.child(missionId).setValue(mission)

@@ -33,4 +33,21 @@
     <string name="user_longitude">Longitude</string>
     <string name="done_button">Done</string>
     <string name="user_signout">Sign Out</string>
+    <string name="form_product_label">What are you going to send?</string>
+    <string name="form_product_hint">A bottle of water</string>
+    <string name="form_destination_name_label">Destination (Name)</string>
+    <string name="form_destination_name_hint">서울역</string>
+    <string name="form_destination_latitude_label">Destination (latitude)</string>
+    <string name="form_destination_latitude_hint">37.5530</string>
+    <string name="form_destination_longitude_label">Destination (longitude)</string>
+    <string name="form_destination_longitude_hint">126.9726</string>
+    <string name="form_receiver_phone_label">Receiver Contact Number</string>
+    <string name="form_receiver_phone_hint">010-1234-5678</string>
+    <string name="form_reward_label">Reward</string>
+    <string name="form_reward_hint">2000</string>
+    <string name="form_condition1_label">Condition 1</string>
+    <string name="form_condition2_label">Condition2</string>
+    <string name="form_condition3_label">Condition3</string>
+    <string name="form_additional_information_label">Additional Information</string>
+    <string name="form_create_button">Create</string>
 </resources>

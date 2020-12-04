@@ -63,7 +63,7 @@
             android:background="@drawable/round_button"
             android:text="@string/action_sign_in_short"
             android:textStyle="bold"
-            android:onClick="@{() -> signinViewModel.onSignin()}"
+            android:onClick="@{() -> signinViewModel.onSendSigninInformation()}"
             app:layout_constraintEnd_toEndOf="@+id/signin_input_password"
             app:layout_constraintStart_toStartOf="@+id/signin_input_password"
             app:layout_constraintTop_toBottomOf="@+id/signin_input_password" />

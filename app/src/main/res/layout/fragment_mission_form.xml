@@ -8,31 +8,30 @@
         <variable
             name="missionFormViewModel"
             type="com.example.agentd.missionform.MissionFormViewModel" />
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".missionform.MissionFormFragment">
 
-        <ScrollView
-            android:id="@+id/mission_form_scroll_view"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/form_label_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="What are you going to send?"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_product_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -43,11 +42,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="A bottle of water"
+                    android:hint="@string/form_product_hint"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_product"
                     app:layout_constraintStart_toStartOf="@+id/form_label_product"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_product" />
@@ -57,9 +56,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Destination (Name)"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_destination_name_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_product"
                     app:layout_constraintStart_toStartOf="@+id/form_input_product"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_product" />
@@ -70,11 +68,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="서울역"
+                    android:hint="@string/form_destination_name_hint"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_destination_name"
                     app:layout_constraintStart_toStartOf="@+id/form_label_destination_name"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_destination_name" />
@@ -84,9 +82,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Destination (latitude)"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_destination_latitude_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_destination_name"
                     app:layout_constraintStart_toStartOf="@+id/form_input_destination_name"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_destination_name" />
@@ -97,11 +94,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="37.5530"
+                    android:hint="@string/form_destination_latitude_hint"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_destination_latitude"
                     app:layout_constraintStart_toStartOf="@+id/form_label_destination_latitude"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_destination_latitude" />
@@ -111,9 +108,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Destination (longitude)"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_destination_longitude_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_destination_latitude"
                     app:layout_constraintStart_toStartOf="@+id/form_input_destination_latitude"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_destination_latitude" />
@@ -124,10 +120,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="126.9726"
+                    android:hint="@string/form_destination_longitude_hint"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_destination_longitude"
                     app:layout_constraintStart_toStartOf="@+id/form_label_destination_longitude"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_destination_longitude" />
@@ -137,9 +134,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Receiver Contact Number"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_receiver_phone_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_destination_longitude"
                     app:layout_constraintStart_toStartOf="@+id/form_input_destination_longitude"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_destination_longitude" />
@@ -150,11 +146,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="010-1234-5678"
+                    android:hint="@string/form_receiver_phone_hint"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_receiver_phone"
                     app:layout_constraintStart_toStartOf="@+id/form_label_receiver_phone"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_receiver_phone" />
@@ -164,9 +160,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Reward"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_reward_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_receiver_phone"
                     app:layout_constraintStart_toStartOf="@+id/form_input_receiver_phone"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_receiver_phone" />
@@ -177,11 +172,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ems="10"
-                    android:hint="2000"
+                    android:hint="@string/form_reward_hint"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_reward"
                     app:layout_constraintStart_toStartOf="@+id/form_label_reward"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_reward" />
@@ -191,9 +186,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Condition 1"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_condition1_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_reward"
                     app:layout_constraintStart_toStartOf="@+id/form_input_reward"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_reward" />
@@ -217,9 +211,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Condition2"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_condition2_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_condition1"
                     app:layout_constraintStart_toStartOf="@+id/form_input_condition1"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_condition1" />
@@ -232,8 +225,8 @@
                     android:ems="10"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_condition2"
                     app:layout_constraintStart_toStartOf="@+id/form_label_condition2"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_condition2" />
@@ -243,9 +236,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Condition3"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_condition3_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_condition2"
                     app:layout_constraintStart_toStartOf="@+id/form_input_condition2"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_condition2" />
@@ -258,20 +250,19 @@
                     android:ems="10"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_label_condition3"
                     app:layout_constraintStart_toStartOf="@+id/form_label_condition3"
                     app:layout_constraintTop_toBottomOf="@+id/form_label_condition3" />
 
                 <TextView
-                    android:id="@+id/form_labal_addtional_information"
+                    android:id="@+id/form_label_additional_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Additional Information"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:text="@string/form_additional_information_label"
+                    style="@style/TextStyleTitle1"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_condition3"
                     app:layout_constraintStart_toStartOf="@+id/form_input_condition3"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_condition3" />
@@ -284,11 +275,11 @@
                     android:ems="10"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@+id/form_labal_addtional_information"
-                    app:layout_constraintStart_toStartOf="@+id/form_labal_addtional_information"
-                    app:layout_constraintTop_toBottomOf="@+id/form_labal_addtional_information" />
+                    style="@style/TextStyleSmall"
+                    app:layout_constraintEnd_toEndOf="@+id/form_label_additional_information"
+                    app:layout_constraintStart_toStartOf="@+id/form_label_additional_information"
+                    app:layout_constraintTop_toBottomOf="@+id/form_label_additional_information" />
 
                 <Button
                     android:id="@+id/form_button_create"
@@ -297,16 +288,15 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="24dp"
                     android:onClick="@{() -> missionFormViewModel.onCreateMission()}"
-                    android:text="Create"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/form_create_button"
+                    style="@style/TextStyleSmall"
                     app:layout_constraintEnd_toEndOf="@+id/form_input_additional_information"
                     app:layout_constraintStart_toStartOf="@+id/form_input_additional_information"
                     app:layout_constraintTop_toBottomOf="@+id/form_input_additional_information" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
