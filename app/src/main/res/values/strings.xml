@@ -50,4 +50,8 @@
     <string name="form_condition3_label">Condition3</string>
     <string name="form_additional_information_label">Additional Information</string>
     <string name="form_create_button">Create</string>
+    <string name="status_on_delivery">On delivery</string>
+    <string name="status_complete">Complete</string>
+    <string name="status_ask_for_confirm">Ask for confirmation</string>
+    <string name="status_confirmed">Confirmed</string>
 </resources>

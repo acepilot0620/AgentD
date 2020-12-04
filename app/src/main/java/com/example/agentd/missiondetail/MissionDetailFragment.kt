@@ -124,24 +124,40 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
 
                 binding.detailTextCondition1.setText(mission!!.condition1)
                 binding.detailCheckboxCondition1.isChecked = mission!!.condition1Complete
+                if(mission!!.condition1 == "No condition specified") binding.detailCheckboxCondition1.isEnabled = false
 
                 binding.detailTextCondition2.setText(mission!!.condition2)
                 binding.detailCheckboxCondition2.isChecked = mission!!.condition2Complete
+                if(mission!!.condition2 == "No condition specified") binding.detailCheckboxCondition2.isEnabled = false
 
                 binding.detailTextCondition3.setText(mission!!.condition3)
                 binding.detailCheckboxCondition3.isChecked = mission!!.condition3Complete
+                if(mission!!.condition3 == "No condition specified") binding.detailCheckboxCondition3.isEnabled = false
 
                 binding.detailTextAdditionalInformation.setText(mission!!.additionalInformation)
+
+                binding.detailTextStatus.setText(mission!!.status)
 
                 // when the agent wait for confirmation from orderer
                 if(fromAgent!!) {
                     if(mission!!.completed && !mission!!.confirmed) {
-                        binding.detailTextStatus.setText("Ask for confirmation")
+                        binding.detailTextStatus.setText(getString(R.string.status_ask_for_confirm))
                         binding.detailButtonComplete.isEnabled = false
                         binding.detailButtonComplete.visibility = View.GONE
+
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(p0: DataSnapshot) {
+                                if(p0.child("confirmed").getValue() == true) {
+                                    binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+                                    missionDetailViewModel.onNavigateToTitle()
+                                }
+                            }
+                            override fun onCancelled(p0: DatabaseError) {
+                                Log.d(TAG, "Failed to get mission information for updating completion")
+                            }
+
+                        })
                     }
-                } else {
-                    binding.detailTextStatus.setText(mission!!.status)
                 }
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -189,7 +205,7 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                     Log.d(TAG, "$it")
                     val modList = mutableListOf<Pair<String, Any>>()
                     modList.add(Pair(checkboxes[it].first, true))
-                    updateMissionInformationByField(missionId.toString(), modList, false)
+                    updateMissionInformationByField(missionId, modList, false)
 
                     missionDetailViewModel.doneCheckBoxChecked()
                 }
@@ -214,18 +230,19 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
             if(it == true) {
                 val modList = mutableListOf<Pair<String, Any>>()
                 modList.add(Pair("agentUid", uid))
-                modList.add(Pair("status", "On delivery"))
+                modList.add(Pair("status", getString(R.string.status_on_delivery)))
 
                 // remove accept button
                 binding.detailButtonAccept.visibility = View.GONE
                 // now he can press accept button
                 binding.detailButtonComplete.visibility = View.VISIBLE
                 // enable checkbox
-                binding.detailCheckboxCondition1.isEnabled = true
-                binding.detailCheckboxCondition2.isEnabled = true
-                binding.detailCheckboxCondition3.isEnabled = true
+                if(binding.detailTextCondition1.text != "No condition specified") binding.detailCheckboxCondition1.isEnabled = true
+                if(binding.detailTextCondition2.text != "No condition specified") binding.detailCheckboxCondition2.isEnabled = true
+                if(binding.detailTextCondition3.text != "No condition specified") binding.detailCheckboxCondition3.isEnabled = true
+
                 // set status to On delivery
-                binding.detailTextStatus.setText("On delivery")
+                binding.detailTextStatus.setText(getString(R.string.status_on_delivery))
 
                 // update that the user accept the order
                 updateMissionInformationByField(missionId.toString(), modList, true)
@@ -239,13 +256,13 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
             if(it == true) {
                 val modList = mutableListOf<Pair<String, Any>>()
                 modList.add(Pair("completed", true))
-                modList.add(Pair("status", "Complete"))
+                modList.add(Pair("status", getString(R.string.status_complete)))
 
                 binding.detailButtonComplete.visibility = View.GONE
 
                 updateMissionInformationByField(missionId.toString(), modList, false)
 
-                binding.detailTextStatus.setText("Ask for confirmation")
+                binding.detailTextStatus.setText(getString(R.string.status_ask_for_confirm))
 
 
                 ref.addValueEventListener(object : ValueEventListener {
@@ -260,20 +277,6 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                     }
 
                 })
-//                ref.addChildEventListener(object : ChildEventListener {
-//                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-//                        if(p0.child("confirmed").getValue() == true) {
-//                            binding.detailTextStatus.setText(p0.child("status").getValue().toString())
-//                            missionDetailViewModel.onNavigateToTitle()
-//                        }
-//                    }
-//                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {}
-//                    override fun onChildRemoved(p0: DataSnapshot) {}
-//                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {}
-//                    override fun onCancelled(p0: DatabaseError) {
-//                        Log.d(TAG, "Change listener for confirmed failed")
-//                    }
-//                })
 
                 missionDetailViewModel.doneCompleteMission()
             }
@@ -284,7 +287,7 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
             if(it == true) {
                 val modList = mutableListOf<Pair<String, Any>>()
                 modList.add(Pair("confirmed", true))
-                modList.add(Pair("status", "Confirmed"))
+                modList.add(Pair("status", getString(R.string.status_confirmed)))
 
                 updateMissionInformationByField(missionId.toString(), modList, true)
 
@@ -405,7 +408,7 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
             requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
 
         if(permission == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient!!.requestLocationUpdates(
+            fusedLocationClient.requestLocationUpdates(
                 locationRequest, locationCallback, Looper.myLooper()
             )
         }
@@ -422,8 +425,8 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             var currentLocation: Location = locationResult.lastLocation
-            var currentLatitude: Double = currentLocation!!.latitude
-            var currentLongitude: Double = currentLocation!!.longitude
+            var currentLatitude: Double = currentLocation.latitude
+            var currentLongitude: Double = currentLocation.longitude
 
 
             Log.d(TAG, "[requestLocationUpdates] current latitude: ${currentLatitude}")

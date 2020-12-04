@@ -101,6 +101,10 @@ class MissionFormFragment : Fragment() {
                 // read user data for getting latitude and longitude of the user
                 val user: User? = p0.getValue(User::class.java)
 
+                val condition1Complete = if(condition1 == "No condition specified") true else false
+                val condition2Complete = if(condition2 == "No condition specified") true else false
+                val condition3Complete = if(condition3 == "No condition specified") true else false
+
                 // create mission instance
                 val mission = Mission(
                     missionId, ordererUid, agentUid = "Agent not matched", product,
@@ -108,9 +112,9 @@ class MissionFormFragment : Fragment() {
                     destinationName, destinationLatitude, destinationLongitude,
                     receiverPhone,
                     reward,
-                    condition1, false,
-                    condition2, false,
-                    condition3, false,
+                    condition1, condition1Complete,
+                    condition2, condition2Complete,
+                    condition3, condition3Complete,
                     additionalInformation,
                     "Wait for agent",
                     false, false
