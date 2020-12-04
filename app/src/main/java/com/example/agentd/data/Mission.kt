@@ -13,7 +13,9 @@ data class Mission(val missionId: String = "",
                    val condition1: String = "", val condition1Complete: Boolean = false,
                    val condition2: String = "", val condition2Complete: Boolean = false,
                    val condition3: String = "", val condition3Complete: Boolean = false,
-                   val additionalInformation: String = "") {
+                   val additionalInformation: String = "",
+                   val status: String = "",
+                   val completed: Boolean = false, val confirmed: Boolean = false) {
 
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -29,7 +31,9 @@ data class Mission(val missionId: String = "",
             "condition1" to condition1, "condition1Complete" to condition1Complete,
             "condition2" to condition2, "condition2Complete" to condition2Complete,
             "condition3" to condition3, "condition3Complete" to condition3Complete,
-            "additionalInformation" to additionalInformation
+            "additionalInformation" to additionalInformation,
+            "status" to status,
+            "completed" to completed, "confirmed" to confirmed
         )
     }
 

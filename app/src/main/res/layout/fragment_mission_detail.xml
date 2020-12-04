@@ -19,7 +19,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -27,14 +27,13 @@
 
                 <TextView
                     android:id="@+id/detail_label_title"
-                    style="@style/TextStyle"
+                    style="@style/TextStyleTitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Mission Details"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -140,10 +139,8 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
-                    android:paddingLeft="@dimen/layout_padding"
-                    android:paddingRight="@dimen/layout_padding"
                     android:visibility="visible"
-                    app:layout_constraintDimensionRatio="w,1:2"
+                    app:layout_constraintDimensionRatio="w,1:1"
                     app:layout_constraintEnd_toEndOf="@+id/detail_text_destination"
                     app:layout_constraintStart_toStartOf="@+id/detail_label_destination"
                     app:layout_constraintTop_toBottomOf="@+id/detail_text_destination">
@@ -179,6 +176,7 @@
                     android:id="@+id/detail_checkbox_condition1"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:onClick="@{() -> missionDetailViewModel.onCheckBoxChecked(0)}"
                     app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition1"
                     app:layout_constraintEnd_toEndOf="@+id/detail_label_conditions"
                     app:layout_constraintTop_toTopOf="@+id/detail_text_condition1"
@@ -199,6 +197,7 @@
                     android:id="@+id/detail_checkbox_condition2"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:onClick="@{() -> missionDetailViewModel.onCheckBoxChecked(1)}"
                     app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition2"
                     app:layout_constraintEnd_toEndOf="@+id/detail_checkbox_condition1"
                     app:layout_constraintTop_toTopOf="@+id/detail_text_condition2" />
@@ -218,6 +217,7 @@
                     android:id="@+id/detail_checkbox_condition3"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:onClick="@{() -> missionDetailViewModel.onCheckBoxChecked(2)}"
                     app:layout_constraintBottom_toBottomOf="@+id/detail_text_condition3"
                     app:layout_constraintEnd_toEndOf="@+id/detail_checkbox_condition2"
                     app:layout_constraintTop_toTopOf="@+id/detail_text_condition3" />
@@ -271,23 +271,39 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:onClick="@{() -> missionDetailViewModel.onCompleteMission()}"
                     android:text="Complete"
                     android:textSize="18sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="@+id/detail_text_status"
                     app:layout_constraintStart_toStartOf="@+id/detail_label_status"
                     app:layout_constraintTop_toBottomOf="@+id/detail_text_status" />
 
                 <Button
-                    android:id="@+id/detail_busson_accept"
+                    android:id="@+id/detail_button_accept"
                     style="@style/TextStyleSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:onClick="@{() -> missionDetailViewModel.onAcceptMission()}"
                     android:text="Accept"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="@+id/detail_text_status"
                     app:layout_constraintStart_toStartOf="@+id/detail_label_status"
                     app:layout_constraintTop_toBottomOf="@+id/detail_button_complete" />
+
+                <Button
+                    android:id="@+id/detail_button_confirm"
+                    style="@style/TextStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> missionDetailViewModel.onConfirmMissionResult()}"
+                    android:text="Confirm"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/detail_text_status"
+                    app:layout_constraintStart_toStartOf="@+id/detail_label_status"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_button_accept" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

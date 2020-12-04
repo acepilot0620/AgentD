@@ -3,6 +3,7 @@ package com.example.agentd.title
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.agentd.data.Mission
 
 class TitleViewModel : ViewModel() {
 
@@ -13,6 +14,15 @@ class TitleViewModel : ViewModel() {
     private val _navigateToMissionForm = MutableLiveData<Boolean?>()
     val navigateToMissionForm: LiveData<Boolean?>
         get() = _navigateToMissionForm
+
+    private val _navigateToMissionDetail = MutableLiveData<Mission?>()
+    val navigateToMissionDetail: LiveData<Mission?>
+        get() = _navigateToMissionDetail
+
+    private val _navigateToMissionAgent = MutableLiveData<Boolean?>()
+    val navigateToMissionAgent: LiveData<Boolean?>
+        get() = _navigateToMissionAgent
+
 
 
     fun onNavtigateToUser() {
@@ -29,6 +39,22 @@ class TitleViewModel : ViewModel() {
 
     fun doneNavigateToMissionForm() {
         _navigateToMissionForm.value = null
+    }
+
+    fun onNavigateToMissionDetail(mission: Mission) {
+        _navigateToMissionDetail.value = mission
+    }
+
+    fun doneNavigateToMissionDetail() {
+        _navigateToMissionDetail.value = null
+    }
+
+    fun onNavigateToMissionAgent() {
+        _navigateToMissionAgent.value = true
+    }
+
+    fun doneNavigateToMissionAgent() {
+        _navigateToMissionAgent.value = null
     }
 
 }

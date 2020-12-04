@@ -34,9 +34,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import java.util.*
+import kotlin.math.sign
 
 class SigninFragment : Fragment() {
 
+    private lateinit var signinViewModel: SigninViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uid: String
 
@@ -51,7 +53,7 @@ class SigninFragment : Fragment() {
         val viewModelFactory = SigninViewModelFactory()
 
         // Get a reference to the ViewModel associated with this fragment.
-        val signinViewModel =
+        signinViewModel =
             ViewModelProvider(
                 this, viewModelFactory).get(SigninViewModel::class.java)
 
@@ -75,15 +77,24 @@ class SigninFragment : Fragment() {
                 // perform signin and if success, save location data to database
                 performSignin(email, password)
 
+                signinViewModel.doneSendSigninInformation()
+            }
+        })
+
+
+        signinViewModel.navigateToTitle.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Log.d(TAG, "Try to show TitleFragment")
+
                 // after signin complete, move to title fragment
                 this.findNavController().navigate(
                     SigninFragmentDirections
                         .actionSigninFragmentToTitleFragment()
                 )
-
-                signinViewModel.doneSignin()
+                signinViewModel.doneNavigateToTitle()
             }
         })
+
 
         signinViewModel.navigateToSignup.observe(viewLifecycleOwner, Observer {
             if(it == true) {
@@ -164,6 +175,9 @@ class SigninFragment : Fragment() {
                         Log.d(TAG, "[saveLastLocation] last latitude: ${lastLocation!!.latitude}")
                         Log.d(TAG, "[saveLastLocation] last longitude: ${lastLocation!!.longitude}")
 
+                        // move to title fragment
+                        signinViewModel.onNavigateToTitle()
+
                         // update to current location
                         getCurrentLocation()
 
@@ -179,21 +193,21 @@ class SigninFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(){
-        var locationRequest =  LocationRequest()
+        val locationRequest =  LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
         locationRequest.fastestInterval = 0
         locationRequest.numUpdates = 1
-        fusedLocationClient!!.requestLocationUpdates(
+        fusedLocationClient.requestLocationUpdates(
             locationRequest, locationCallback, Looper.myLooper()
         )
     }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            var currentLocation: Location = locationResult.lastLocation
-            var currentLatitude: Double = currentLocation!!.latitude
-            var currentLongitude: Double = currentLocation!!.longitude
+            val currentLocation: Location = locationResult.lastLocation
+            val currentLatitude: Double = currentLocation.latitude
+            val currentLongitude: Double = currentLocation.longitude
 
 
             Log.d(TAG, "[getCurrentLocation] current latitude: ${currentLatitude}")
@@ -210,10 +224,10 @@ class SigninFragment : Fragment() {
 
 
     private fun getCityName(latitude: Double,longitude: Double) {
-        var countryName: String
-        var cityName: String
-        var geoCoder = Geocoder(requireActivity(), Locale.getDefault())
-        var address = geoCoder.getFromLocation(latitude, longitude,3)
+        val countryName: String
+        val cityName: String
+        val geoCoder = Geocoder(requireActivity(), Locale.getDefault())
+        val address = geoCoder.getFromLocation(latitude, longitude,3)
 
         countryName = address.get(0).countryName
         cityName = address.get(0).locality

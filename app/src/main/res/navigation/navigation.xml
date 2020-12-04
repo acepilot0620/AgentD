@@ -59,7 +59,14 @@
             app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_title_fragment_to_mission_detail_fragment"
-            app:destination="@id/mission_detail_fragment" />
+            app:destination="@id/mission_detail_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_title_fragment_to_mission_agent_fragment"
+            app:destination="@id/mission_agent_fragment" />
     </fragment>
     <fragment
         android:id="@+id/user_fragment"
@@ -94,19 +101,44 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/title_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/mission_detail_fragment"
         android:name="com.example.agentd.missiondetail.MissionDetailFragment"
         tools:layout="@layout/fragment_mission_detail"
         android:label="MissionDetailFragment" >
+
+        <argument
+            android:name="missionId"
+            app:argType="string"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_mission_detail_fragment_to_title_fragment"
             app:destination="@id/title_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/title_fragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="fromTitle"
+            app:argType="boolean" />
+        <argument
+            android:name="fromOrderer"
+            app:argType="boolean" />
+        <argument
+            android:name="fromAgent"
+            app:argType="boolean" />
+
     </fragment>
+    <fragment
+        android:id="@+id/mission_agent_fragment"
+        android:name="com.example.agentd.missionagent.MissionAgentFragment"
+        tools:layout="@layout/fragment_mission_agent"
+        android:label="MissionAgentFragment" />
 </navigation>
