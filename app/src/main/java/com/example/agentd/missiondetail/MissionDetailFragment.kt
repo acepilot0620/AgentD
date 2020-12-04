@@ -2,6 +2,7 @@ package com.example.agentd.missiondetail
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,6 +27,8 @@ import com.google.firebase.database.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 
@@ -53,6 +57,8 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
         // print mission on layout
         missionId = arguments.missionId.toString() // null case
         Log.d(TAG, "Successfully get missionId: $missionId")
+
+        // val fragmentManager = requireActivity().supportFragmentManager
 
         val viewModelFactory = MissionDetailViewModelFactory()
 
@@ -303,6 +309,7 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                     MissionDetailFragmentDirections
                         .actionMissionDetailFragmentToTitleFragment()
                 )
+                // fragmentManager.popBackStack()
                 missionDetailViewModel.doneNavigateToTitle()
             }
         })
@@ -321,6 +328,42 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
 
     // For orderer only
     override fun onMapReady(naverMap: NaverMap) {
+
+        // draw route line from source to destination
+        FirebaseDatabase.getInstance().getReference("/missions/$missionId")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    // make coordinate list for route
+                    val coords = mutableListOf<LatLng>(
+                        LatLng(
+                            p0.child("sourceLatitude").getValue().toString().toDouble(),
+                            p0.child("sourceLongitude").getValue().toString().toDouble()),
+                        LatLng(
+                            p0.child("destinationLatitude").getValue().toString().toDouble(),
+                            p0.child("destinationLongitude").getValue().toString().toDouble())
+                    )
+                    // draw path
+                    PathOverlay().also {
+                        it.coords = coords
+                        it.width = 6
+                        it.outlineWidth = 0
+                        it.color = Color.RED
+                        it.patternImage = OverlayImage.fromResource(R.drawable.path_pattern)
+                        it.patternInterval = resources.getDimensionPixelSize(R.dimen.overlay_pattern_interval)
+                        it.map = naverMap
+                    }
+                    // move focus to source
+                    val cameraUpdate = CameraUpdate.scrollTo(
+                        LatLng(
+                            p0.child("sourceLatitude").getValue().toString().toDouble(),
+                            p0.child("sourceLongitude").getValue().toString().toDouble()))
+                            .animate(CameraAnimation.Easing)
+                    naverMap.moveCamera(cameraUpdate)
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                    Log.d(TAG, "Change listener for route failed")
+                }
+            })
 
         // get uid for agent
         val ref = FirebaseDatabase.getInstance().getReference("/missions/$missionId")
