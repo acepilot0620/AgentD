@@ -43,6 +43,7 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
 
     private var fromAgent: Boolean? = null
     private var fromOrderer: Boolean? = null
+    private var reward: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -125,6 +126,8 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
 
                 // show saved value to user
                 binding.detailTextProduct.setText(mission!!.product)
+                reward = mission!!.reward.toString().toInt()
+                Log.d(TAG, "The reward for mission $missionId is $reward")
                 binding.detailTextReward.setText(mission!!.reward.toString())
                 binding.detailTextDestination.setText(mission!!.destinationName)
 
@@ -155,6 +158,10 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                             override fun onDataChange(p0: DataSnapshot) {
                                 if(p0.child("confirmed").getValue() == true) {
                                     binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+
+                                    // get money
+                                    updateUserBalance(uid, reward, true)
+
                                     missionDetailViewModel.onNavigateToTitle()
                                 }
                             }
@@ -288,6 +295,10 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                     override fun onDataChange(p0: DataSnapshot) {
                         if(p0.child("confirmed").getValue() == true) {
                             binding.detailTextStatus.setText(p0.child("status").getValue().toString())
+
+                            // get money
+                            updateUserBalance(uid, reward, true)
+
                             missionDetailViewModel.onNavigateToTitle()
                         }
                     }
@@ -309,6 +320,9 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
                 modList.add(Pair("status", getString(R.string.status_confirmed)))
 
                 updateMissionInformationByField(missionId.toString(), modList, true)
+
+                // pay for money
+                updateUserBalance(uid, reward, false)
 
                 missionDetailViewModel.doneConfirmMissionResult()
             }
@@ -453,6 +467,42 @@ class MissionDetailFragment : Fragment(), OnMapReadyCallback {
             }
 
     }
+
+    private fun updateUserBalance(userId: String, amount: Int, agentReceiver: Boolean) {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
+        ref.child("balance").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val balance: Int = p0.getValue().toString().toInt()
+                Log.d(TAG, "User $userId 's balance is $balance")
+
+                val updates = hashMapOf<String, Any>()
+                if(agentReceiver) {
+                    // agent receives money
+                    updates.put("balance", balance + amount)
+                } else {
+                    // orderer through out money
+                    updates.put("balance", balance - amount)
+                }
+
+                ref.updateChildren(updates)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Successfully update balance for $userId")
+
+                    }
+                    .addOnFailureListener {
+                        // for logging purposes
+                    }
+
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d(TAG, "Failed to read user $userId 's balance")
+            }
+
+        })
+
+
+    }
+
 
     private fun requestLocationUpdates() {
         var locationRequest =  LocationRequest()

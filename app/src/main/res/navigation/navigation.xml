@@ -66,7 +66,15 @@
             app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_title_fragment_to_mission_agent_fragment"
-            app:destination="@id/mission_agent_fragment" />
+            app:destination="@id/mission_agent_fragment"
+            app:popUpTo="@id/title_fragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_title_fragment_to_mission_list_fragment"
+            app:destination="@id/mission_list_fragment" />
+        <action
+            android:id="@+id/action_title_fragment_to_mission_orderer_fragment"
+            app:destination="@id/mission_orderer_fragment" />
     </fragment>
     <fragment
         android:id="@+id/user_fragment"
@@ -144,10 +152,29 @@
         <action
             android:id="@+id/action_mission_agent_fragment_to_mission_detail_fragment"
             app:destination="@id/mission_detail_fragment" />
+        <action
+            android:id="@+id/action_mission_agent_fragment_to_mission_orderer_fragment"
+            app:destination="@id/mission_orderer_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/missionListFragment"
-        android:name="com.example.agentd.missionlist.MissionListFragment"
+        android:id="@+id/mission_list_fragment"
         tools:layout="@layout/fragment_mission_list"
-        android:label="MissionListFragment" />
+        android:name="com.example.agentd.missionlist.MissionListFragment"
+        android:label="MissionListFragment" >
+        <action
+            android:id="@+id/action_mission_list_fragment_to_mission_detail_fragment"
+            app:destination="@id/mission_detail_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mission_orderer_fragment"
+        tools:layout="@layout/fragment_mission_orderer"
+        android:name="com.example.agentd.missionorderer.MissionOrdererFragment"
+        android:label="MissionOrdererFragment" >
+        <action
+            android:id="@+id/action_mission_orderer_fragment_to_mission_detail_fragment"
+            app:destination="@id/mission_detail_fragment" />
+        <action
+            android:id="@+id/action_mission_orderer_fragment_to_mission_agent_fragment"
+            app:destination="@id/mission_agent_fragment" />
+    </fragment>
 </navigation>

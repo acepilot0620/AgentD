@@ -10,6 +10,10 @@ class MissionOrdererViewModel : ViewModel() {
     val navigateToMissionDetail: LiveData<String?>
         get() = _navigateToMissionDetail
 
+    private val _navigateToMissionAgent = MutableLiveData<Boolean?>()
+    val navigateToMissionAgent: LiveData<Boolean?>
+        get() = _navigateToMissionAgent
+
 
     fun onNavigateToMissionDetail(missionId: String) {
         _navigateToMissionDetail.value = missionId
@@ -17,6 +21,15 @@ class MissionOrdererViewModel : ViewModel() {
 
     fun doneNavigateToMissionDetail() {
         _navigateToMissionDetail.value = null
+    }
+
+
+    fun onNavigateToMissionAgent() {
+        _navigateToMissionAgent.value = true
+    }
+
+    fun doneNavigateToMissionAgent() {
+        _navigateToMissionAgent.value = null
     }
 
 }

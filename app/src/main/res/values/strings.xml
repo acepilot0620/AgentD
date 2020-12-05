@@ -56,4 +56,6 @@
     <string name="status_confirmed">Confirmed</string>
     <string name="list_item_product">Product</string>
     <string name="list_item_destination_name">Destination Name</string>
+    <string name="button_request">Request</string>
+    <string name="button_on_duty">On Duty</string>
 </resources>

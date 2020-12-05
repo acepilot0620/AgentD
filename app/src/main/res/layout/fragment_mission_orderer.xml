@@ -16,6 +16,41 @@
         android:layout_height="match_parent"
         tools:context=".missionorderer.MissionOrdererFragment">
 
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/orderer_button_agent"
+                style="?attr/buttonBarButtonStyle"
+                android:onClick="@{() -> missionOrdererViewModel.onNavigateToMissionAgent()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_dark"
+                android:text="@string/button_on_duty"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/orderer_button_orderer"
+                style="?attr/buttonBarButtonStyle"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark"
+                android:text="@string/button_request"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"  />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mission_orderer_list"
             android:layout_width="0dp"
@@ -28,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
