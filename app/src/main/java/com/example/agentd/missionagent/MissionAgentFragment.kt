@@ -100,6 +100,19 @@ class MissionAgentFragment : Fragment() {
             })
 
 
+        missionAgentViewModel.navigateToMissionOrderer.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Log.d(TAG, "Try to show MissionOrdererFragment")
+
+                this.findNavController().navigate(
+                    MissionAgentFragmentDirections
+                        .actionMissionAgentFragmentToMissionOrdererFragment()
+                )
+                missionAgentViewModel.doneNavigateToMissionOrderer()
+            }
+        })
+
+
         return binding.root
     }
 

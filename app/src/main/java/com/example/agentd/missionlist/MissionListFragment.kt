@@ -1,5 +1,6 @@
 package com.example.agentd.missionlist
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.agentd.R
@@ -57,55 +59,85 @@ class MissionListFragment : Fragment() {
         Log.d(TAG, uid)
 
         val adapter = MissionAdapter(MissionListener { missionId ->
-            // Toast.makeText(context, "${missionId}", Toast.LENGTH_LONG).show()
+            // Toast.makeText(context, "${mission.missionId}", Toast.LENGTH_LONG).show()
             missionListViewModel.onNavigateToMissionDetail(missionId)
         })
 
         binding.missionListList.adapter = adapter
 
-
-        val ref = FirebaseDatabase.getInstance().getReference("/missions/")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                missionList = mutableListOf()
-
-                p0.children.forEach cont@{
-                    val mission : Mission? = it.getValue(Mission::class.java)
-
-                    if(mission!!.ordererUid != uid) return@cont
-
-                    missionList.add(mission!!)
-                    Log.d(TAG, "Successfully read mission: $mission")
-                }
-
-                adapter.submitList(missionList)
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d(TAG, "Failed to load data from database: ", p0.toException())
-            }
-
-        })
-
-
         binding.setLifecycleOwner(this)
 
+        // set initial view as agent
+//        missionListViewModel.onClickTopButton(1)
 
-        missionListViewModel.navigateToMissionDetail.observe(viewLifecycleOwner, Observer { missionId ->
-            missionId?.let {
-                Log.d(TAG, "Try to show MissionDetailFragment")
 
-//                this.findNavController().navigate(
-//                    MissionListFragmentDirections.actionMissionListFragmentToMissionDetailFragment(
-//                        missionId = it,
-//                        fromTitle = false,
-//                        fromOrderer = true,
-//                        fromAgent = false
+//        missionListViewModel.clickTopButton.observe(viewLifecycleOwner, Observer { index ->
+//            if(index == 1) {
+//                binding.listButtonAgent.setBackgroundColor(Color.RED)
+//                binding.listButtonAgent.setBackgroundColor(Color.BLACK)
+//            } else {
+//                binding.listButtonAgent.setBackgroundColor(Color.BLACK)
+//                binding.listButtonAgent.setBackgroundColor(Color.RED)
+//            }
+//            val ref = FirebaseDatabase.getInstance().getReference("/missions/")
+//            ref.addValueEventListener(object : ValueEventListener {
+//                override fun onDataChange(p0: DataSnapshot) {
+//                    missionList = mutableListOf()
+//
+//                    p0.children.forEach cont@{
+//                        val mission : Mission? = it.getValue(Mission::class.java)
+//
+//                        if(index == 1) { // index == 1 for agent
+//                            if(mission!!.agentUid != uid) return@cont
+//                        } else { // index == 2 for orderer
+//                            if(mission!!.ordererUid != uid) return@cont
+//                        }
+//
+//                        missionList.add(mission!!)
+//                        Log.d(TAG, "Successfully read mission: $mission")
+//                    }
+//
+//                    adapter.submitList(missionList)
+//                }
+//
+//                override fun onCancelled(p0: DatabaseError) {
+//                    Log.d(TAG, "Failed to load data from database: ", p0.toException())
+//                }
+//
+//            })
+//            missionListViewModel.doneClickTopButton()
+//        })
+//
+//
+//
+//
+//
+//        missionListViewModel.navigateToMissionDetail.observe(viewLifecycleOwner, Observer { mission ->
+//            mission?.let {
+//                Log.d(TAG, "Try to show MissionDetailFragment")
+//
+//                if(uid == mission.agentUid) {
+//                    this.findNavController().navigate(
+//                        MissionListFragmentDirections.actionMissionListFragmentToMissionDetailFragment(
+//                            missionId = it.missionId,
+//                            fromTitle = false,
+//                            fromOrderer = false,
+//                            fromAgent = true
+//                        )
 //                    )
-//                )
-                missionListViewModel.doneNavigateToMissionDetail()
-            }
-        })
+//                } else if (uid == mission.ordererUid) {
+//                    this.findNavController().navigate(
+//                        MissionListFragmentDirections.actionMissionListFragmentToMissionDetailFragment(
+//                            missionId = it.missionId,
+//                            fromTitle = false,
+//                            fromOrderer = true,
+//                            fromAgent = false
+//                        )
+//                    )
+//                }
+//                missionListViewModel.doneNavigateToMissionDetail()
+//            }
+//        })
 
 
 

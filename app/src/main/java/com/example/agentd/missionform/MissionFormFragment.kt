@@ -22,6 +22,7 @@ import com.example.agentd.R
 import com.example.agentd.data.Mission
 import com.example.agentd.data.User
 import com.example.agentd.databinding.FragmentMissionFormBinding
+import com.example.agentd.title.TitleFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.time.Duration
@@ -30,6 +31,7 @@ import java.util.*
 class MissionFormFragment : Fragment() {
 
     private lateinit var missionFormViewModel: MissionFormViewModel
+    private lateinit var uid: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,6 +52,9 @@ class MissionFormFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
+        uid = FirebaseAuth.getInstance().uid ?:""
+        Log.d(TAG, uid)
+
 
         binding.formInputDestinationName.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -69,6 +74,36 @@ class MissionFormFragment : Fragment() {
                             binding.formInputDestinationLatitude.setText(latLng.first.toString())
                             binding.formInputDestinationLongitude.setText(latLng.second.toString())
                         }
+                    }
+                }
+                // hide keyboard
+                val imm: InputMethodManager = v!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                return true
+            }
+        })
+
+
+        binding.formInputReward.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE -> {
+                        FirebaseDatabase.getInstance().getReference("/users/$uid/balance")
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    val currentBalance: Int = p0.getValue().toString().toInt()
+                                    val desiredBalance: Int = binding.formInputReward.text.toString().toInt()
+
+                                    if (desiredBalance > currentBalance) {
+                                        Toast.makeText(requireActivity(), "The balance $desiredBalance exceeds $currentBalance.", Toast.LENGTH_SHORT).show()
+                                        binding.formInputReward.setText(currentBalance.toString())
+                                    }
+                                }
+
+                                override fun onCancelled(p0: DatabaseError) {
+                                    Log.d(TAG, "Failed to read balance of $uid")
+                                }
+                            })
                     }
                 }
                 // hide keyboard

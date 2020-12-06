@@ -87,15 +87,28 @@ class MissionOrdererFragment : Fragment() {
             missionId?.let {
                 Log.d(TAG, "Try to show MissionDetailFragment")
 
-//                this.findNavController().navigate(
-//                    MissionOrdererFragmentDirections.actionMissionOrdererFragmentToMissionDetailFragment(
-//                        missionId = it,
-//                        fromTitle = false,
-//                        fromOrderer = true,
-//                        fromAgent = false
-//                    )
-//                )
+                this.findNavController().navigate(
+                    MissionOrdererFragmentDirections.actionMissionOrdererFragmentToMissionDetailFragment(
+                        missionId = it,
+                        fromTitle = false,
+                        fromOrderer = true,
+                        fromAgent = false
+                    )
+                )
                 missionOrdererViewModel.doneNavigateToMissionDetail()
+            }
+        })
+
+
+        missionOrdererViewModel.navigateToMissionAgent.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Log.d(TAG, "Try to show MissionAgentFragment")
+
+                this.findNavController().navigate(
+                    MissionOrdererFragmentDirections
+                        .actionMissionOrdererFragmentToMissionAgentFragment()
+                )
+                missionOrdererViewModel.doneNavigateToMissionAgent()
             }
         })
 
